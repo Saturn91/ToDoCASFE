@@ -1,18 +1,40 @@
 :root{
-    --col_back_submitBtn: rgb(86, 228, 86);
-    --col_submitBtn: rgb(136, 50, 0);
-    --col_back_declineBtn: rgb(185, 25, 25);
-    --col_declineBtn: #ffffff;
-    --col_back_default: rgb(221, 221, 221);
-    --col_back_card: rgb(241, 241, 241);
+    --col_col1_positive: #0479D3;
+
+    --col_col2_negativ: #FC4242;
+
+    --col_back_default: #EAEAEA;
+    --col_lightest: white;
+    --col_border_light: #ECECEC;
+
+    --col_back_body: #F4F4F4;
+    --col_back_card: #FFFFFF;
+
+    --col_default_text: black;
+    --col_light_text: white;
 }
 
 * {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
-    background-color: var(--col_back_default);
     font-family: 'Heebo', sans-serif;
+}
+
+.dark-theme{
+    --col_col1_positive: #505050;
+
+    --col_col2_negativ: #8d6f6f;
+
+    --col_back_default: #000000;
+    --col_lightest: rgb(63, 63, 63);
+    --col_border_light: #797979;
+
+    --col_back_body: #1a1a1a;
+    --col_back_card: #6d6d6d;
+
+    --col_default_text: white;
+    --col_light_text: rgb(218, 218, 218);
 }
 
 /*---main layout with gridbox---*/
@@ -20,9 +42,9 @@
     padding: 10px;
     height: 100vh;
     display: grid;
+    background-color: var(--col_back_body);
     grid-template-columns: auto;
     grid-template-rows: 40px auto 30px;
-    gap: 5px;
     grid-template-areas:
         "header"
         "content"
@@ -30,17 +52,58 @@
 }
 
 .header { 
+    padding-left: 5px;
     grid-area: header;
-    border-width: 1px;
-    border-style: solid;
+    background-color: var(--col_lightest);
+    display: inline-block;
  }
+
 .content {
     grid-area: content; 
+    background-color: var(--col_back_body);
 }
 .footer { 
     grid-area: footer; 
-    border-width: 1px;
-    border-style: solid;
+    background-color: var(--col_lightest);
+    border-top: 5px solid var(--col_col1_positive);
 }
 /*--/main layout with gridbox---*/
 
+/*-- header --*/
+.header .options{
+    float: right;
+    height: 100%;
+ }
+
+.header h1{
+    float: left;
+    font-size: 1.5rem;
+}
+
+.header select{
+    border: none;
+    border-left: 3px solid var(--col_border_light);
+    background-color: var(--col_col1_positive);
+    color: var(--col_light_text);   
+    padding-left: 5px;
+    width: 150px;
+}
+
+/*.header select:hover{
+    background-color: var(--col_col1_positive);
+    color: var(--col_lightest)
+}*/
+
+.header select:active, select:hover{
+    background-color: var(--col_border_light);
+    color: var(--col_default_text); 
+}
+/*--/header --*/
+
+p {
+    color: var(--col_default_text)
+}
+
+h1{
+    color: var(--col_default_text);
+}

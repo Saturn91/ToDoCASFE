@@ -5,7 +5,6 @@
   <title>Note App</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.3/handlebars.min.js" integrity="sha256-/PJBs6QWvXijOFIX04kZpLb6ZtSQckdOIavLWKKOgXU=" crossorigin="anonymous" defer></script>
   <script src="scripts/index.js" type="module"></script>
-
   <link rel="stylesheet" href="styles/main.css">
   <link rel="stylesheet" href="styles/taskList.css">
   <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;700&display=swap" rel="stylesheet"> 
@@ -14,7 +13,11 @@
 <!--main page layout-->
 <div class="main-body-container">
   <header class="header">
-    <h1>Note App</h1>
+    <h1>Manage your Notes</h1>
+    <select name="theme" class='options' data_theme>
+      <option value="light" selected>light theme</option>
+      <option value="dark">dark theme</option>
+    </select>
   </header>
   <main class="content task-list-container">
     <!--sort options-->
@@ -23,22 +26,22 @@
       <button class="task-btn">Finish Date</button>
       <button class="task-btn">Created Date</button>
       <button class="task-btn">Importance</button>
-      <button class="task-btn">Show finished</button>
+      <button class="task-btn-last">Show finished</button>
     </section>
     <!--list of tasks-->
     <section class="task-list">
       <div class="task-card">
         <h1>Add Task</h1>   
         <div class="button-holder">
-          <button class="btn green">Add</button>
+          <button class="btn positive">Add</button>
         </div>    
       </div>
       <div class="task-card">
         <h1>Task title</h1>
         <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Error iure quam harum, officia aperiam odit! Id corrupti nesciunt voluptate laboriosam illo sequi cupiditate atque dignissimos, ratione eaque assumenda repudiandae quos!</p>
         <div class="button-holder">
-          <button class="btn green">Done</button>
-          <button class="btn red">Cancel</button>
+          <button class="btn positive">Done</button>
+          <button class="btn negative">Cancel</button>
         </div>        
       </div>
     </section>

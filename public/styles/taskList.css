@@ -3,7 +3,6 @@
     display: grid;
     grid-template-columns: auto;
     grid-template-rows: 40px auto;
-    gap: 5px;
     grid-template-areas:
         "options"
         "list";
@@ -14,19 +13,45 @@
     grid-area: options; 
     display: flex;
     justify-content: flex-start;
+    background-color: var(--col_lightest);
+    border-bottom: 5px solid var(--col_col1_positive);
     align-items: stretch;
-    border-width: 1px;
-    border-style: solid;
 }
 
 .task-options p{
-    padding-top: 10px;
+    margin-left: 5px;
+    margin-right: 20px;
+    padding-top: 5px;
+    
 }
 
 .task-btn{
-    margin: 5px 40px;
+    margin: 0px 0px;
     padding: 0px 5px;
-    border-radius: 5px;
+    background-color: var(--col_lightest);
+    color: var(--col_default_text);
+    border-style: none;
+    border-left: 3px solid var(--col_border_light);
+}
+
+.task-btn:hover{
+    background-color: var(--col_col1_positive);
+    color: var(--col_lightest)
+}
+
+.task-btn-last{
+    margin: 0px 0px;
+    padding: 0px 5px;
+    background-color: var(--col_lightest);
+    color: var(--col_default_text);
+    border-style: none;
+    border-left: 3px solid var(--col_border_light);
+    border-right: 3px solid var(--col_border_light);
+}
+
+.task-btn-last:hover{
+    background-color: var(--col_col1_positive);
+    color: var(--col_lightest)
 }
 
 /*task list*/
@@ -75,12 +100,12 @@
     font-weight: 700;
 }
 
-.green{
-    background-color: var(--col_back_submitBtn);
-    color: var(--col_submitBtn);
+.positive{
+    background-color: var(--col_col1_positive);
+    color: var(--col_light_text);
 }
 
-.red{
-    background-color: var(--col_back_declineBtn);
-    color: var(--col_declineBtn);
+.negative{
+    background-color: var(--col_col2_negativ);
+    color: var(--col_light_text);
 }
