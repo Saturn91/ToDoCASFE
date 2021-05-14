@@ -63,6 +63,7 @@
     background-color: var(--col_back_body);
 }
 .footer { 
+    padding-left: 5px;
     grid-area: footer; 
     background-color: var(--col_lightest);
     border-top: 5px solid var(--col_col1_positive);

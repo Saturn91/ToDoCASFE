@@ -36,7 +36,6 @@
 
 .task-btn:hover{
     background-color: var(--col_col1_positive);
-    color: var(--col_lightest)
 }
 
 .task-btn-last{
@@ -51,7 +50,6 @@
 
 .task-btn-last:hover{
     background-color: var(--col_col1_positive);
-    color: var(--col_lightest)
 }
 
 /*task list*/
@@ -65,6 +63,7 @@
 }
 
 .task-list .task-card{
+    margin-top: 5px;
     background-color: var(--col_back_card);
     width: 200px;
     height: 300px;
@@ -74,6 +73,7 @@
 }
 
 .task-card h1{
+    border-bottom: 3px solid var(--col_col1_positive);
     background-color: inherit;
     text-align: center;
     padding: 5px;
