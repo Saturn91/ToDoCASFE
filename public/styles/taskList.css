@@ -69,7 +69,7 @@
     height: 300px;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: flex-start;
 }
 
 .task-card h1{
@@ -80,7 +80,8 @@
 }
 
 .task-card .display-date{
-    padding: 5px;
+    margin: 0;
+    padding: 0px 5px;
     display: inline-block;    
 }
 
@@ -92,6 +93,7 @@
     background-color: inherit;
     padding: 5px;
     overflow: hidden;
+    height: 100%;
 }
 
 .label{
