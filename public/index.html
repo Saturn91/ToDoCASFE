@@ -2,12 +2,20 @@
 <html lang="de">
 <head>
   <meta charset="UTF-8">
-  <title>Note App</title>
+  <title>Notes Manager</title>
+
+  <!-- scripts -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.3/handlebars.min.js" integrity="sha256-/PJBs6QWvXijOFIX04kZpLb6ZtSQckdOIavLWKKOgXU=" crossorigin="anonymous" defer></script>
-  <script src="scripts/index.js" type="module"></script>
+  <script src="scripts/models/task.js" type='module'></script>
+  <script src="scripts/models/todomanager.js" type='module'></script>
+  <script src="scripts/index.js" type="module"></script>  
+  <!--/scripts -->
+
+  <!-- styles -->
   <link rel="stylesheet" href="styles/main.css">
   <link rel="stylesheet" href="styles/taskList.css">
   <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;700&display=swap" rel="stylesheet"> 
+  <!--/styles -->
 </head>
 <body>
 <!--main page layout-->
@@ -38,7 +46,15 @@
       </div>
       <div class="task-card">
         <h1>Task title</h1>
-        <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Error iure quam harum, officia aperiam odit! Id corrupti nesciunt voluptate laboriosam illo sequi cupiditate atque dignissimos, ratione eaque assumenda repudiandae quos!</p>
+        <div class="display-date">
+          <p class='label'>due:</p>
+          <p class='date'>dd/mm/yy</p>
+        </div>
+        <div class="display-date line-bottem">
+          <p class='label'>finished:</p>
+          <p class='date'>dd/mm/yy</p>
+        </div>
+        <p class="description">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Error iure quam harum, officia aperiam odit! Id corrupti nesciunt voluptate laboriosam illo sequi cupiditate atque dignissimos, ratione eaque assumenda repudiandae quos!</p>
         <div class="button-holder">
           <button class="btn positive">Done</button>
           <button class="btn negative">Cancel</button>

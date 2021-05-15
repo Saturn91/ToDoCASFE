@@ -79,10 +79,28 @@
     padding: 5px;
 }
 
-.task-card p{
+.task-card .display-date{
+    padding: 5px;
+    display: inline-block;    
+}
+
+.task-card .line-bottem{
+    border-bottom: 2px solid var(--col_border_light);
+}
+
+.task-card .description{
     background-color: inherit;
     padding: 5px;
     overflow: hidden;
+}
+
+.label{
+    float: left;
+    font-weight: 700;
+}
+
+.date{
+    float: right;
 }
 
 .task-card .button-holder{
