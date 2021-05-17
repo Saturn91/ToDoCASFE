@@ -2,6 +2,7 @@
     --col_col1_positive: #0479d3;
     --col_col2_negativ: #fc4242;
     --col_back_default: #eaeaea;
+    --col_back_default_transparent: rgba(131, 131, 131, 0.425);
     --col_lightest: white;
     --col_border_light: #ececec;
     --col_back_body: #f4f4f4;

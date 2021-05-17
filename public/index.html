@@ -8,12 +8,14 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.3/handlebars.min.js" integrity="sha256-/PJBs6QWvXijOFIX04kZpLb6ZtSQckdOIavLWKKOgXU=" crossorigin="anonymous" defer></script>
   <script src="scripts/models/task.js" type='module'></script>
   <script src="scripts/models/todomanager.js" type='module'></script>
+  <script src="scripts/control.js" type='module'></script>
   <script src="scripts/index.js" type="module"></script>  
   <!--/scripts -->
 
   <!-- styles -->
   <link rel="stylesheet" href="styles/main.css">
   <link rel="stylesheet" href="styles/taskList.css">
+  <link rel="stylesheet" href="styles/popup.css">
   <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;700&display=swap" rel="stylesheet"> 
   <!--/styles -->
 </head>
@@ -41,7 +43,7 @@
       <div class="task-card">
         <h1>Add Task</h1>   
         <div class="button-holder">
-          <button class="btn positive">Add</button>
+          <button class="btn positive" data-add-task>Add</button>
         </div>    
       </div>
     </section>
@@ -52,6 +54,33 @@
 </div>
 <!--/main page layout-->
 
-
+<!-- Pop up -->
+<div class="popup-background" data-popup>
+  <div class="popup-body">
+    <div class="popup-header">
+      <h1>Add Task</h1>
+      <button class="close-window-btn" data-close-popup>x</button>
+    </div>
+    <div class="popup-content">
+      <form class="input-new-task-form">
+        <label name="title">Title: </label>
+        <input type="text" name='title'>
+        <label name="duedate">Due Date: </label>
+        <input type="date" name='duedate'>
+        <label name="prio">Priority:</label>
+        <input type="number" name="prio">
+        <label name="description">Description: </label>
+        <input type="text" name='description'>
+      </form>
+    </div>
+    <div class="popup-footer">
+      <div class="button-holder">
+        <button class="btn positive ">Add</button>
+        <button class="btn negative" data-close-popup>Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!--/Pop up -->
 </body>
 </html>
