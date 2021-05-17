@@ -64,20 +64,21 @@
       <button class="close-window-btn" data-close-popup>x</button>
     </div>
     <div class="popup-content">
-      <form class="input-new-task-form">
-        <label name="title">Title: </label>
-        <input type="text" name='title'>
-        <label name="duedate">Due Date: </label>
-        <input type="date" name='duedate'>
-        <label name="prio">Priority:</label>
-        <input type="number" name="prio">
-        <label name="description">Description: </label>
-        <input type="text" name='description'>
+      <form class="input-new-task-form" data-form-new-task>
+        <label for="title">Title: </label>
+        <input type="text" name='title' id="title" required>
+        <label for="duedate">Due Date: </label>
+        <input type="date" name='duedate' id ="duedate">
+        <label for="prio">Priority:</label>
+        <input type="number" name="prio" id="prio" value="3" min="1" max="3">
+        <label for="description">Description: </label>
+        <input type="text" name='description' id="description" required>
       </form>
     </div>
+    <div class="popup-msg" data-form-msg></div>
     <div class="popup-footer">
       <div class="button-holder">
-        <button class="btn positive ">Add</button>
+        <button class="btn positive" data-submit-task>Add</button>
         <button class="btn negative" data-close-popup>Cancel</button>
       </div>
     </div>

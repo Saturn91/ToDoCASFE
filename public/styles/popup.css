@@ -11,23 +11,20 @@
 }
 
 .popup-body {
-    margin: auto;
+    margin: 60px auto;
     width: 50vw;
     min-width: 400px;
     height: 75vh;
     min-height: 500px;
     background-color: var(--col_lightest);
-    grid-template-columns: auto;
-    grid-template-rows: 40px auto 30px;
-    grid-template-areas:
-        "popup_header"
-        "popup_content"
-        "popup_footer";
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
 }
 
 .popup-header {
-    padding-left: 5px;
-    grid-area: popup_header;
+    height: 40px;
+    padding-left: 40px;
     background-color: var(--col_lightest);
     overflow: auto;
 }
@@ -51,13 +48,17 @@
 
 .popup-content {
     border-top: 5px solid var(--col_col1_positive);
-    grid-area: popup_content;
     background-color: var(--col_back_body);
-    height: auto;
+    height: 100%;
+}
+
+.popup-msg { 
+    padding: 0 5px;
+    background-color: var(--col_col3_warning);
+    color: var(--col_default_text);
 }
 
 .popup-footer {
-    grid-area: popup_footer;
     background-color: var(--col_lightest);
 }
 

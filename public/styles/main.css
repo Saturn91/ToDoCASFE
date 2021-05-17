@@ -1,6 +1,7 @@
 :root {
     --col_col1_positive: #0479d3;
     --col_col2_negativ: #fc4242;
+    --col_col3_warning: #fcd142;
     --col_back_default: #eaeaea;
     --col_back_default_transparent: rgba(131, 131, 131, 0.425);
     --col_lightest: white;
