@@ -22,6 +22,9 @@ function showPopup(show) {
         const local = new Date();
         local.setMinutes(local.getMinutes() - local.getTimezoneOffset());
         formDueDate.value = local.toJSON().slice(0, 10);
+        formTitle.value = '';
+        formDescription.value = '';
+        formPriority.value = 3;
     } else {
         popUpWindow.style.display = 'none';
     }
