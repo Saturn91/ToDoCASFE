@@ -8,7 +8,7 @@ const newTaskSubmitBtn = document.querySelector('[data-submit-task]');
 const warningDisplay = document.querySelector('[data-form-msg]');
 const toDoManager = new ToDoManager();
 const formTitle = popUpWindow.querySelector('input[name="title"]');
-const formDescription = popUpWindow.querySelector('input[name="description"]');
+const formDescription = popUpWindow.querySelector('textarea[name="description"]');
 const formPriority = popUpWindow.querySelector('input[name="prio"]');
 const formDueDate = popUpWindow.querySelector('input[name="duedate"]');
 
