@@ -7,6 +7,7 @@ export default class View {
         this.cardList = [];
         this.displayType = {
             default: 0,
+            createdDate: 0,
             sortDueDate: 1,
             showFinised: 2};
     }
@@ -17,6 +18,9 @@ export default class View {
             switch (displayType) {
                 case this.displayType.default:
                     this.defaultListDisplay();
+                    break;
+                case this.displayType.showFinised:
+                    this.finishedListDisplay();
                     break;
                 default:
                     console.error(`displaytpye: ${displayType} does not exist`);
@@ -29,13 +33,18 @@ export default class View {
 
     defaultListDisplay() {
         this.toDoManager.taskList.forEach((task) => this.createTaskCard(task));
+        listParent.appendChild(this.addNewCardItem);
+        this.cardList.forEach((card) => listParent.appendChild(card));
+    }
+
+    finishedListDisplay() {
+        this.toDoManager.finishedTasks.forEach((task) => this.createTaskCard(task));
         this.cardList.forEach((card) => listParent.appendChild(card));
     }
 
     clearList() {
         listParent.innerHTML = '';
         this.cardList = [];
-        listParent.appendChild(this.addNewCardItem);
     }
 
     createTaskCard(task) {
@@ -57,22 +66,32 @@ export default class View {
           html += '<p class="date">not yet</p>';
         }
 
-        html += `        </div>
-        <p class="description">${task.description}</p>
-        <div class="button-holder">
-          <button class="btn positive" id="${task.id}" data-done-btn>Done</button>
-          <button class="btn negative" id="${task.id}" data-cancel-btn>Cancel</button>
-        </div>        
-        `;
-        newCard.innerHTML = html;
-        newCard.querySelector('[data-done-btn]').addEventListener('click', () => {
-            this.toDoManager.getTaskByID(task.id).setDone();
-            this.updateView();
-        });
-        newCard.querySelector('[data-cancel-btn]').addEventListener('click', () => {
-            this.toDoManager.removeTaskById(task.id);
-            this.updateView();
-        });
+        html += `</div>
+                <p class="description">${task.description}</p>`;
+
+        if (!task.finished) {
+            html += `        
+            <div class="button-holder">
+                <button class="btn positive" id="${task.id}" data-done-btn>Done</button>
+                <button class="btn negative" id="${task.id}" data-cancel-btn>Cancel</button>
+            </div>        
+            `;
+            newCard.innerHTML = html;
+            newCard.querySelector('[data-done-btn]').addEventListener('click', () => {
+                this.toDoManager.finishTaskById(task.id);
+                this.updateView();
+            });
+            newCard.querySelector('[data-cancel-btn]').addEventListener('click', () => {
+                this.toDoManager.removeTaskById(task.id);
+                this.updateView();
+            });
+        } else {
+            html += '<p class="label">finished</p>';
+            newCard.innerHTML = html;
+        }
+
+        
+
         this.cardList.push(newCard);
     }
 }

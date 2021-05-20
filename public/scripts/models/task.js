@@ -18,9 +18,4 @@ export default class Task {
     toString() {
         return `ID:[${this.id}][${this.importance}][${this.title}]: "${this.description}", start: ${this.createDate} - ${this.finishDate} finished: ${this.finished}`;
     }
-
-    setDone() {
-      this.finished = true;
-      this.finishDate = new Date();
-    }
 }
