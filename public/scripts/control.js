@@ -1,16 +1,20 @@
 import Task from './models/task.js';
 import ToDoManager from './models/todomanager.js';
+import View from './view.js';
 
 const closeBtns = document.querySelectorAll('[data-close-popup]');
 const popUpWindow = document.querySelector('[data-popup]');
 const addTaskBtn = document.querySelector('[data-add-task]');
 const newTaskSubmitBtn = document.querySelector('[data-submit-task]');
 const warningDisplay = document.querySelector('[data-form-msg]');
-const toDoManager = new ToDoManager();
 const formTitle = popUpWindow.querySelector('input[name="title"]');
 const formDescription = popUpWindow.querySelector('textarea[name="description"]');
 const formPriority = popUpWindow.querySelector('input[name="prio"]');
 const formDueDate = popUpWindow.querySelector('input[name="duedate"]');
+const toDoManager = new ToDoManager();
+const view = new View(toDoManager);
+let currentView = 0;
+view.updateView(currentView);
 
 /* Popup show/hide */
 
@@ -66,37 +70,17 @@ function checknewTaskFormValid() {
     return valid;
 }
 
-const listParent = document.querySelector('[data-task-list]');
-
-function clearList() {
-    const addNewCard = listParent.querySelector('.first');
-    listParent.innerHTML = '';
-    listParent.appendChild(addNewCard);
-}
-
- function addTaskToList(task) {
-    const newCard = document.createElement('div');
-    newCard.classList.add('task-card');
-    newCard.innerHTML = task.getHtmlText();
-    listParent.appendChild(newCard);
-}
-
- function updateList() {
-     clearList();
-     toDoManager.taskList.forEach((task) => addTaskToList(task));
-}
-
 newTaskSubmitBtn.addEventListener('click', () => {
-   if (checknewTaskFormValid()) {
-        toDoManager.addTask(
-            new Task(
-                formTitle.value,
-                formDescription.value,
-                formPriority.value,
-                new Date(formDueDate.value),
-                ),
-);
-        updateList();
-        showPopup(false);
-   }
-});
+    if (checknewTaskFormValid()) {
+         toDoManager.addTask(
+             new Task(
+                 formTitle.value,
+                 formDescription.value,
+                 formPriority.value,
+                 new Date(formDueDate.value),
+                 ),
+ );
+         view.updateView(currentView);
+         showPopup(false);
+    }
+ });
