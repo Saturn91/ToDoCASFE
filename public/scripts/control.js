@@ -84,3 +84,15 @@ newTaskSubmitBtn.addEventListener('click', () => {
          showPopup(false);
     }
  });
+
+/* sort and display btns */
+const sortCreateDateBtn = document.querySelector('[data-sort-created-btn]');
+const showFinishedBtn = document.querySelector('[data-show-finished-btn]');
+
+sortCreateDateBtn.addEventListener('click', () => {
+    view.updateView(view.displayType.createdDate);
+});
+
+showFinishedBtn.addEventListener('click', () => {
+    view.updateView(view.displayType.showFinised);
+});
