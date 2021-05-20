@@ -32,13 +32,17 @@ export default class View {
     }
 
     defaultListDisplay() {
-        this.toDoManager.taskList.forEach((task) => this.createTaskCard(task));
+        this.toDoManager.taskList
+            .sort((a, b) => a.createdDate - b.createdDate)
+            .forEach((task) => this.createTaskCard(task));
         listParent.appendChild(this.addNewCardItem);
         this.cardList.forEach((card) => listParent.appendChild(card));
     }
 
     finishedListDisplay() {
-        this.toDoManager.finishedTasks.forEach((task) => this.createTaskCard(task));
+        this.toDoManager.finishedTasks
+        .sort((a, b) => a.createdDate - b.createdDate)
+        .forEach((task) => this.createTaskCard(task));
         this.cardList.forEach((card) => listParent.appendChild(card));
     }
 

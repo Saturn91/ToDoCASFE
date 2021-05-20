@@ -39,7 +39,7 @@
 
 .task-btn-last {
     margin: 0 0;
-    padding: 0 0;
+    padding: 0 5px;
     background-color: var(--col_lightest);
     color: var(--col_default_text);
     border-style: none;

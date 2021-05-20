@@ -4,7 +4,7 @@ import View from './view.js';
 
 const closeBtns = document.querySelectorAll('[data-close-popup]');
 const popUpWindow = document.querySelector('[data-popup]');
-const addTaskBtn = document.querySelector('[data-add-task]');
+const addTaskBtn = document.querySelectorAll('[data-add-task]');
 const newTaskSubmitBtn = document.querySelector('[data-submit-task]');
 const warningDisplay = document.querySelector('[data-form-msg]');
 const formTitle = popUpWindow.querySelector('input[name="title"]');
@@ -35,8 +35,10 @@ function showPopup(show) {
 
 showPopup(false);
 
-addTaskBtn.addEventListener('click', () => {
-    showPopup(true);
+addTaskBtn.forEach((button) => {
+    button.addEventListener('click', () => {
+        showPopup(true);
+    });
 });
 
 closeBtns.forEach((item) => {
@@ -79,7 +81,7 @@ newTaskSubmitBtn.addEventListener('click', () => {
                  new Date(formDueDate.value),
                  ),
  );
-         view.updateView(currentView);
+         view.updateView(view.displayType.createdDate);
          showPopup(false);
     }
  });
