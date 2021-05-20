@@ -13,8 +13,7 @@ const formPriority = popUpWindow.querySelector('input[name="prio"]');
 const formDueDate = popUpWindow.querySelector('input[name="duedate"]');
 const toDoManager = new ToDoManager();
 const view = new View(toDoManager);
-let currentView = 0;
-view.updateView(currentView);
+view.updateView(view.displayType.createdDate);
 
 /* Popup show/hide */
 
