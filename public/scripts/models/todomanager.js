@@ -1,6 +1,7 @@
 export default class ToDoManager {
     constructor() {
         this.taskList = [];
+        this.removedTasks = [];
     }
 
     addTask(task) {
@@ -24,5 +25,13 @@ export default class ToDoManager {
             output += ` ${this.taskList[i].toString()}`;
         }
         return output;
+    }
+
+    removeTaskById(id) {
+       this.taskList.forEach((task, index) => {
+        if (task.id === id) {
+            this.removedTasks.push(this.taskList.splice(index, 1)[0]);
+        }
+       });
     }
 }

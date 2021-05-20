@@ -69,6 +69,10 @@ export default class View {
             this.toDoManager.getTaskByID(task.id).setDone();
             this.updateView();
         });
+        newCard.querySelector('[data-cancel-btn]').addEventListener('click', () => {
+            this.toDoManager.removeTaskById(task.id);
+            this.updateView();
+        });
         this.cardList.push(newCard);
     }
 }
