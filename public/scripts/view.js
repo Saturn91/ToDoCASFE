@@ -26,7 +26,10 @@ function getCardFooterAsHtml(task) {
         </div>        
         `;
     }
-    return '<p>finished</p>';
+    return `
+    <div class="button-holder">
+        <button class="btn negative" id="${task.id}" data-cancel-btn>Delete</button>
+    </div>`;
 }
 
 export default class View {
@@ -116,11 +119,12 @@ export default class View {
                 this.toDoManager.finishTaskById(task.id);
                 this.updateView();
             });
-            newCard.querySelector('[data-cancel-btn]').addEventListener('click', () => {
-                this.toDoManager.removeTaskById(task.id);
-                this.updateView();
-            });
         }
+
+        newCard.querySelector('[data-cancel-btn]').addEventListener('click', () => {
+            this.toDoManager.removeTaskById(task.id);
+            this.updateView();
+        });
 
         this.cardList.push(newCard);
     }

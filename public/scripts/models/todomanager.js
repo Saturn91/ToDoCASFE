@@ -71,11 +71,17 @@ export default class ToDoManager {
     }
 
     removeTaskById(id) {
-       this.taskList.forEach((task, index) => {
+       this.taskList.forEach((task, index, array) => {
             if (task.id === id) {
-                this.removedTasks.push(this.taskList.splice(index, 1)[0]);
+                this.removedTasks.push(array.splice(index, 1)[0]);
             }
        });
+       this.finishedTasks.forEach((task, index, array) => {
+            if (task.id === id) {
+                this.removedTasks.push(array.splice(index, 1)[0]);
+            }
+        });
+       this.saveToLocalStorage();
     }
 
     finishTaskById(id) {
