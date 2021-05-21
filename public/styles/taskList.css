@@ -79,10 +79,9 @@
     padding: 5px;
 }
 
-.task-card .display-date {
+.task-card .display-property {
     margin: 0;
     padding: 0 5px;
-    display: inline-block;
 }
 
 .task-card .line-bottem {
@@ -101,7 +100,7 @@
     font-weight: 700;
 }
 
-.date {
+.property {
     float: right;
 }
 

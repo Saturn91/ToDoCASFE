@@ -8,13 +8,17 @@ function sortFinishedDate(a, b) {
     return a.finishDate - b.finishDate;
 }
 
+function sortImportance(a, b) {
+    return a.importance - b.importance;
+}
+
 function sortDueDate(a, b) {
-    return a.dueDate - b.dueDate;
+    return b.dueDate - a.dueDate;
 }
 
 function getFinishedDateAsHtml(task) {
     console.log();
-    return task.finished ? `<p class='date'>${task.finishDate.getDate()}/${task.finishDate.getMonth()}/${task.finishDate.getFullYear()}</p>` : '<p class="date">not yet</p>';
+    return task.finished ? `<p class='property'>${task.finishDate.getDate()}/${task.dueDate.getMonth() + 1}/${task.finishDate.getFullYear()}</p>` : '<p class="property">not yet</p>';
 }
 
 function getCardFooterAsHtml(task) {
@@ -32,6 +36,15 @@ function getCardFooterAsHtml(task) {
     </div>`;
 }
 
+function getPriorityHtml(task) {
+    let html = '<p class="property">';
+    for (let i = 0; i < task.importance; i++) {
+        html += '*';
+    }
+    html += '</p>';
+    return html;
+}
+
 export default class View {
     constructor(toDoManager) {
         this.toDoManager = toDoManager;
@@ -41,7 +54,8 @@ export default class View {
             default: 0,
             createdDate: 0,
             sortDueDate: 1,
-            showFinised: 2};
+            sortImportance: 2,
+            showFinised: 3};
     }
 
     updateView(displayType) {
@@ -53,6 +67,9 @@ export default class View {
                     break;
                 case this.displayType.sortDueDate:
                     this.dueDateSortDisplay();
+                    break;
+                case this.displayType.sortImportance:
+                    this.importanceSortDisplay();
                     break;
                 case this.displayType.showFinised:
                     this.finishedListDisplay();
@@ -89,6 +106,14 @@ export default class View {
         this.cardList.forEach((card) => listParent.appendChild(card));
     }
 
+    importanceSortDisplay() {
+        this.toDoManager.taskList
+            .sort((a, b) => sortImportance(a, b))
+            .forEach((task) => this.createTaskCard(task));
+        listParent.appendChild(this.addNewCardItem);
+        this.cardList.forEach((card) => listParent.appendChild(card));
+    }
+
     clearList() {
         listParent.innerHTML = '';
         this.cardList = [];
@@ -100,11 +125,19 @@ export default class View {
         newCard.id = task.id;
         const html = `
         <h1>${task.title}</h1>
-        <div class="display-date">
-          <p class='label'>due:</p>
-          <p class='date'>${task.dueDate.getDate()}/${task.dueDate.getMonth()}/${task.dueDate.getFullYear()}</p>
+        <div class="display-property">
+          <p class='label'>priority:</p>
+          <p class='property'>${getPriorityHtml(task)}</p>
         </div>
-        <div class="display-date line-bottem">
+        <div class="display-property">
+          <p class='label'>due:</p>
+          <p class='property'>${task.dueDate.getDate()}/${task.dueDate.getMonth() + 1}/${task.dueDate.getFullYear()}</p>
+        </div>
+        <div class="display-property">
+          <p class='label'>created:</p>
+          <p class='property'>${task.createDate.getDate()}/${task.dueDate.getMonth() + 1}/${task.createDate.getFullYear()}</p>
+        </div>
+        <div class="display-property line-bottem">
           <p class='label'>finished:</p>
           ${getFinishedDateAsHtml(task)}
         </div>

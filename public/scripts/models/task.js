@@ -18,8 +18,6 @@ export default class Task {
         this.createDate = finishDate === undefined ? new Date() : createDate;
         this.importance = importance;
         this.finished = finished === undefined ? false : finished;
-
-        console.log(this.finished);
     }
 
     debug() {
