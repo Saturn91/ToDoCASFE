@@ -12,6 +12,23 @@ function sortDueDate(a, b) {
     return a.dueDate - b.dueDate;
 }
 
+function getFinishedDateAsHtml(task) {
+    console.log();
+    return task.finished ? `<p class='date'>${task.finishDate.getDate()}/${task.finishDate.getMonth()}/${task.finishDate.getFullYear()}</p>` : '<p class="date">not yet</p>';
+}
+
+function getCardFooterAsHtml(task) {
+    if (!task.finished) {
+        return `        
+        <div class="button-holder">
+            <button class="btn positive" id="${task.id}" data-done-btn>Done</button>
+            <button class="btn negative" id="${task.id}" data-cancel-btn>Cancel</button>
+        </div>        
+        `;
+    }
+    return '<p>finished</p>';
+}
+
 export default class View {
     constructor(toDoManager) {
         this.toDoManager = toDoManager;
@@ -78,31 +95,22 @@ export default class View {
         const newCard = document.createElement('div');
         newCard.classList.add('task-card');
         newCard.id = task.id;
-        let html = `
+        const html = `
         <h1>${task.title}</h1>
         <div class="display-date">
           <p class='label'>due:</p>
-          <p class='date'>${task.dueDate.getDay()}/${task.dueDate.getMonth()}/${task.dueDate.getFullYear()}</p>
+          <p class='date'>${task.dueDate.getDate()}/${task.dueDate.getMonth()}/${task.dueDate.getFullYear()}</p>
         </div>
         <div class="display-date line-bottem">
-          <p class='label'>finished:</p>`;
+          <p class='label'>finished:</p>
+          ${getFinishedDateAsHtml(task)}
+        </div>
+        <p class="description">${task.description}</p>
+        ${getCardFooterAsHtml(task)}`;
 
-        if (task.finished) {
-          html += `<p class='date'>${task.finishDate.getDay()}/${task.finishDate.getMonth()}/${task.finishDate.getFullYear()}</p>`;
-        } else {
-          html += '<p class="date">not yet</p>';
-        }
-
-        html += `</div>
-                <p class="description">${task.description}</p>`;
+        newCard.innerHTML = html;
 
         if (!task.finished) {
-            html += `        
-            <div class="button-holder">
-                <button class="btn positive" id="${task.id}" data-done-btn>Done</button>
-                <button class="btn negative" id="${task.id}" data-cancel-btn>Cancel</button>
-            </div>        
-            `;
             newCard.innerHTML = html;
             newCard.querySelector('[data-done-btn]').addEventListener('click', () => {
                 this.toDoManager.finishTaskById(task.id);
@@ -112,9 +120,6 @@ export default class View {
                 this.toDoManager.removeTaskById(task.id);
                 this.updateView();
             });
-        } else {
-            html += '<p class="label">finished</p>';
-            newCard.innerHTML = html;
         }
 
         this.cardList.push(newCard);
