@@ -65,7 +65,7 @@ export default class ToDoManager {
     toString() {
         let output = '';
         for (let i = 0; i < this.taskList.length; i++) {
-            output += ` ${this.taskList[i].toString()}`;
+            output += ` ${this.taskList[i].debug()}`;
         }
         return output;
     }
