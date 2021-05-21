@@ -1,5 +1,17 @@
 const listParent = document.querySelector('[data-task-list]');
 
+function sortCreatedDate(a, b) {
+    return a.createdDate - b.createdDate;
+}
+
+function sortFinishedDate(a, b) {
+    return a.finishDate - b.finishDate;
+}
+
+function sortDueDate(a, b) {
+    return a.dueDate - b.dueDate;
+}
+
 export default class View {
     constructor(toDoManager) {
         this.toDoManager = toDoManager;
@@ -19,6 +31,9 @@ export default class View {
                 case this.displayType.default:
                     this.defaultListDisplay();
                     break;
+                case this.displayType.sortDueDate:
+                    this.dueDateSortDisplay();
+                    break;
                 case this.displayType.showFinised:
                     this.finishedListDisplay();
                     break;
@@ -33,7 +48,7 @@ export default class View {
 
     defaultListDisplay() {
         this.toDoManager.taskList
-            .sort((a, b) => a.createdDate - b.createdDate)
+            .sort((a, b) => sortCreatedDate(a, b))
             .forEach((task) => this.createTaskCard(task));
         listParent.appendChild(this.addNewCardItem);
         this.cardList.forEach((card) => listParent.appendChild(card));
@@ -41,8 +56,16 @@ export default class View {
 
     finishedListDisplay() {
         this.toDoManager.finishedTasks
-        .sort((a, b) => a.createdDate - b.createdDate)
+        .sort((a, b) => sortCreatedDate(a, b))
         .forEach((task) => this.createTaskCard(task));
+        this.cardList.forEach((card) => listParent.appendChild(card));
+    }
+
+    dueDateSortDisplay() {
+        this.toDoManager.taskList
+            .sort((a, b) => sortDueDate(a, b))
+            .forEach((task) => this.createTaskCard(task));
+        listParent.appendChild(this.addNewCardItem);
         this.cardList.forEach((card) => listParent.appendChild(card));
     }
 
@@ -93,8 +116,6 @@ export default class View {
             html += '<p class="label">finished</p>';
             newCard.innerHTML = html;
         }
-
-        
 
         this.cardList.push(newCard);
     }
