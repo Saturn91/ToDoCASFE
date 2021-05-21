@@ -34,6 +34,7 @@
 }
 
 .task-btn:hover {
+    color: var(--col_lightest);
     background-color: var(--col_col1_positive);
 }
 
