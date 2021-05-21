@@ -9,10 +9,18 @@ popup.show(false);
 view.updateView(view.displayType.createdDate);
 
 /* sort and display btns */
-const sortByDueDate = document.querySelector('[data-sort-duedate-btn]');
-const sortCreateDateBtn = document.querySelector('[data-sort-created-btn]');
-const showFinishedBtn = document.querySelector('[data-show-finished-btn]');
+document.querySelector('[data-sort-duedate-btn]').addEventListener('click', () => view.updateView(view.displayType.sortDueDate));
+document.querySelector('[data-sort-created-btn]').addEventListener('click', () => view.updateView(view.displayType.createdDate));
+document.querySelector('[data-show-finished-btn]').addEventListener('click', () => view.updateView(view.displayType.showFinised));
 
-sortByDueDate.addEventListener('click', () => view.updateView(view.displayType.sortDueDate));
-sortCreateDateBtn.addEventListener('click', () => view.updateView(view.displayType.createdDate));
-showFinishedBtn.addEventListener('click', () => view.updateView(view.displayType.showFinised));
+/* dark theme toggle */
+function toggleDarkTheme(event) {
+    if (event.target.value === 'light') {
+        document.body.classList.remove('dark-theme');
+    } else {
+        document.body.classList.add('dark-theme');
+    }
+}
+
+const selectTheme = document.querySelector('[data_theme]');
+selectTheme.addEventListener('change', (event) => toggleDarkTheme(event));

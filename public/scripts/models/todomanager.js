@@ -52,6 +52,7 @@ export default class ToDoManager {
         this.taskList.forEach((element, index) => {
             if (element.id === id) {
                 this.taskList[index] = task;
+                this.taskList[index].id = id;
             }
         });
     }
