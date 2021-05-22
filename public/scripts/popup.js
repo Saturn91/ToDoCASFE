@@ -27,6 +27,7 @@ export default class Popup {
         this.formPriority = this.popUpWindow.querySelector('input[name="prio"]');
         this.formDueDate = this.popUpWindow.querySelector('input[name="duedate"]');
         this.warningDisplay = document.querySelector('[data-form-msg]');
+        this.windowTitle = document.querySelector('[data-form-title]');
     }
 
     show(show, task) {
@@ -35,8 +36,12 @@ export default class Popup {
             this.warningDisplay.style.display = 'none';
 
             if (task !== undefined) {
+                this.windowTitle.textContent = 'View Task';
+                Popup.newTaskSubmitBtn.textContent = 'Update';
                 this.editTask(task);
             } else {
+                this.windowTitle.textContent = 'Add new Task';
+                Popup.newTaskSubmitBtn.textContent = 'Add';
                 this.addNewTask();
             }
         } else {
