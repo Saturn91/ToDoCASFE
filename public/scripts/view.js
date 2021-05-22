@@ -23,10 +23,6 @@ function getFinishedDateAsHtml(task) {
     return task.finished ? `<p class='property'>${task.finishDate.getDate()}/${task.dueDate.getMonth() + 1}/${task.finishDate.getFullYear()}</p>` : '<p class="property">not yet</p>';
 }
 
-function hideObject(object) {
-    object.style.display = 'none';
-}
-
 function getCardFooterAsHtml(task) {
     if (!task.finished) {
         return `        

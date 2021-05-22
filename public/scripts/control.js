@@ -11,17 +11,8 @@ view.updateView(view.displayType.createdDate);
 const addTaskBtn = document.querySelectorAll('[data-add-task]');
 const closeBtns = document.querySelectorAll('[data-close-popup]');
 
-addTaskBtn.forEach((button) => {
-    button.addEventListener('click', () => {
-        addNewCardPopup.show(true);
-    });
-});
-
-closeBtns.forEach((item) => {
-    item.addEventListener('click', () => {
-        addNewCardPopup.show(false);
-    });
-});
+addTaskBtn.forEach((button) => button.addEventListener('click', () => addNewCardPopup.show(true)));
+closeBtns.forEach((item) => item.addEventListener('click', () => addNewCardPopup.show(false)));
 
 /* sort and display btns */
 document.querySelector('[data-sort-duedate-btn]').addEventListener('click', () => view.updateView(view.displayType.sortDueDate));
