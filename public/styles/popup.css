@@ -6,7 +6,7 @@
     height: 100%;
     background-color: var(--col_back_default_transparent);
     z-index: 1;
-    display: flex;
+    display: none;
     justify-content: center;
 }
 
@@ -50,12 +50,6 @@
     border-top: 5px solid var(--col_col1_positive);
     background-color: var(--col_back_body);
     height: 100%;
-}
-
-.popup-msg { 
-    padding: 0 5px;
-    background-color: var(--col_col3_warning);
-    color: var(--col_default_text);
 }
 
 .popup-footer {

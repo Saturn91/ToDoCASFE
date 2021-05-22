@@ -9,7 +9,6 @@ function getSaveProperty(saveIndex, property) {
 }
 
 function generateSaveProperties(saveIndex, task) {
-    generateSaveProperty(saveIndex, 'id', task.id);
     generateSaveProperty(saveIndex, 'title', task.title);
     generateSaveProperty(saveIndex, 'description', task.description);
     generateSaveProperty(saveIndex, 'finishDate', task.finishDate);
@@ -28,7 +27,6 @@ function getTaskFromSaveIndex(saveIndex) {
         new Date(getSaveProperty(saveIndex, 'createDate')),
         new Date(getSaveProperty(saveIndex, 'finishDate')),
         Number(getSaveProperty(saveIndex, 'finished')) === 1,
-        getSaveProperty(saveIndex, 'id'),
     );
 }
 

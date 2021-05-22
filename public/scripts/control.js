@@ -4,9 +4,24 @@ import Popup from './popup.js';
 
 const toDoManager = new ToDoManager();
 const view = new View(toDoManager);
-const popup = new Popup(view, toDoManager);
-popup.show(false);
+const addNewCardPopup = new Popup(view, toDoManager);
+addNewCardPopup.show(false);
 view.updateView(view.displayType.createdDate);
+
+const addTaskBtn = document.querySelectorAll('[data-add-task]');
+const closeBtns = document.querySelectorAll('[data-close-popup]');
+
+addTaskBtn.forEach((button) => {
+    button.addEventListener('click', () => {
+        addNewCardPopup.show(true);
+    });
+});
+
+closeBtns.forEach((item) => {
+    item.addEventListener('click', () => {
+        addNewCardPopup.show(false);
+    });
+});
 
 /* sort and display btns */
 document.querySelector('[data-sort-duedate-btn]').addEventListener('click', () => view.updateView(view.displayType.sortDueDate));

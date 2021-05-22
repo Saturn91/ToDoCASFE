@@ -96,3 +96,10 @@ h1 {
     background-color: var(--col_border_light);
     color: var(--col_default_text);
 }
+
+.msg-line { 
+    display: none;
+    padding: 0 5px;
+    background-color: var(--col_col3_warning);
+    color: var(--col_default_text);
+}

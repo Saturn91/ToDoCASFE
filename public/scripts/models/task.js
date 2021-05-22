@@ -1,16 +1,11 @@
 export default class Task {
-    constructor(title, description, importance, dueDate, createDate, finishDate, finished, id) {
-        if (id === undefined) {
-          if (Task.idCounter >= 0) {
-            Task.idCounter += 1;
-          } else {
-            Task.idCounter = 0;
-          }
-          this.id = Task.idCounter;
-        } else if (id > Task.idCounter) {
-            Task.idCounter = id;
-            this.id = id;
+    constructor(title, description, importance, dueDate, createDate, finishDate, finished) {
+        if (Task.idCounter >= 0) {
+          Task.idCounter += 1;
+        } else {
+          Task.idCounter = 0;
         }
+        this.id = Task.idCounter;
         this.title = title;
         this.description = description;
         this.finishDate = finishDate === undefined ? new Date() : finishDate;

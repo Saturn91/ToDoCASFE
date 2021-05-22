@@ -1,3 +1,5 @@
+import Popup from './popup.js';
+
 const listParent = document.querySelector('[data-task-list]');
 
 function sortCreatedDate(a, b) {
@@ -21,18 +23,22 @@ function getFinishedDateAsHtml(task) {
     return task.finished ? `<p class='property'>${task.finishDate.getDate()}/${task.dueDate.getMonth() + 1}/${task.finishDate.getFullYear()}</p>` : '<p class="property">not yet</p>';
 }
 
+function hideObject(object) {
+    object.style.display = 'none';
+}
+
 function getCardFooterAsHtml(task) {
     if (!task.finished) {
         return `        
         <div class="button-holder">
-            <button class="btn positive" id="${task.id}" data-done-btn>Done</button>
-            <button class="btn negative" id="${task.id}" data-cancel-btn>Cancel</button>
+            <button name="done" class="btn positive" id="${task.id}" data-done-btn>Done</button>
+            <button name="cancel" class="btn negative" id="${task.id}" data-cancel-btn>Cancel</button>
         </div>        
         `;
     }
     return `
     <div class="button-holder">
-        <button class="btn negative" id="${task.id}" data-cancel-btn>Delete</button>
+        <button name="cancel" class="btn negative" id="${task.id}" data-cancel-btn>Delete</button>
     </div>`;
 }
 
@@ -48,6 +54,7 @@ function getPriorityHtml(task) {
 export default class View {
     constructor(toDoManager) {
         this.toDoManager = toDoManager;
+        this.editpopup = new Popup(this, this.toDoManager);
         this.addNewCardItem = listParent.querySelector('.first');
         this.cardList = [];
         this.displayType = {
@@ -142,15 +149,36 @@ export default class View {
           ${getFinishedDateAsHtml(task)}
         </div>
         <p class="description">${task.description}</p>
+        <p class="msg-line" data-card-msg>nothing to show</p>
         ${getCardFooterAsHtml(task)}`;
 
         newCard.innerHTML = html;
 
         if (!task.finished) {
+            newCard.addEventListener('click', (event) => {
+                if (event.target.name !== 'done' && event.target.name !== 'cancel') {
+                    this.editpopup.show(
+                        true,
+                        this.toDoManager.readTaskByID(Number(event.currentTarget.id)),
+                        );
+                }
+            });
+
             newCard.innerHTML = html;
             newCard.querySelector('[data-done-btn]').addEventListener('click', () => {
                 this.toDoManager.finishTaskById(task.id);
                 this.updateView();
+            });
+
+            newCard.addEventListener('mouseover', () => {
+                const msgBox = newCard.querySelector('[data-card-msg]');
+                msgBox.style.display = 'block';
+                msgBox.innerHTML = 'click to edit';
+                setTimeout(() => { newCard.querySelector('[data-card-msg]').style = 'none'; }, 1000);
+            });
+
+            newCard.addEventListener('mouseleave', (event) => {
+                if (!event.bubbles) newCard.querySelector('[data-card-msg]').style.display = 'none';
             });
         }
 
