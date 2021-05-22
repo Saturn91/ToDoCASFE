@@ -15,7 +15,7 @@ function sortImportance(a, b) {
 }
 
 function sortDueDate(a, b) {
-    return b.dueDate - a.dueDate;
+    return a.dueDate - b.dueDate;
 }
 
 function getFinishedDateAsHtml(task) {
