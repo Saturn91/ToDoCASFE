@@ -33,7 +33,6 @@ function getTaskFromSaveIndex(saveIndex) {
 export default class ToDoManager {
     constructor() {
         this.taskList = [];
-        this.removedTasks = [];
         this.finishedTasks = [];
         this.loadedItems = [];
         const loadedItems = localStorage.getItem('TaskNumber');
@@ -50,36 +49,31 @@ export default class ToDoManager {
     }
 
     readTaskByID(id) {
-        let output = null;
-        this.taskList.forEach((element) => {
-            if (element.id === id) {
-                output = element;
-            }
-        });
-        if (output === null) console.error(`unexpected Error: id: ${id} was not found in tasklist!`);
-        return output;
+        return this.taskList[id] || null;
     }
 
     toString() {
         let output = '';
-        for (let i = 0; i < this.taskList.length; i++) {
-            output += ` ${this.taskList[i].debug()}`;
-        }
+        this.taskList.forEach((task) => { output += ` ${task.debug()}`; });
         return output;
     }
 
-    removeTaskById(id) {
-       this.taskList.forEach((task, index, array) => {
-            if (task.id === id) {
-                this.removedTasks.push(array.splice(index, 1)[0]);
-            }
-       });
-       this.finishedTasks.forEach((task, index, array) => {
-            if (task.id === id) {
-                this.removedTasks.push(array.splice(index, 1)[0]);
-            }
-        });
-       this.saveToLocalStorage();
+    removefromTaskList(id) {
+        if (this.taskList[id] !== undefined && this.taskList[id] !== null) {
+            delete this.taskList[id];
+            this.saveToLocalStorage();
+            return;
+        }
+        console.error(`unexpected id: ${id} is not contained in this.tasklist!`);
+    }
+
+    removeTaskFromFinishedList(id) {
+        if (this.finishedTasks[id] !== undefined && this.finishedTasks[id] !== null) {
+            delete this.finishedTasks[id];
+            this.saveToLocalStorage();
+            return;
+        }
+        console.error(`unexpected id: ${id} is not contained in this.finishedTasks!`);
     }
 
     finishTaskById(id) {
@@ -87,21 +81,12 @@ export default class ToDoManager {
         newTask.finished = true;
         newTask.finishDate = new Date();
         this.updateTask(id, newTask);
-        this.taskList.forEach((task, index) => {
-            if (task.id === id) {
-                this.finishedTasks.push(this.taskList.splice(index, 1)[0]);
-            }
-       });
-       this.saveToLocalStorage();
+        this.finishedTasks.push(this.taskList.splice(id, 1)[0]);
+        this.saveToLocalStorage();
     }
 
     updateTask(id, task) {
-        this.taskList.forEach((element, index) => {
-            if (element.id === id) {
-                this.taskList[index] = task;
-                this.taskList[index].id = id;
-            }
-        });
+        this.taskList[id] = task;
         this.saveToLocalStorage();
     }
 

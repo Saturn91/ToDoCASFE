@@ -23,18 +23,18 @@ function getFinishedDateAsHtml(task) {
     return task.finished ? `<p class='property'>${task.finishDate.getDate()}/${task.dueDate.getMonth() + 1}/${task.finishDate.getFullYear()}</p>` : '<p class="property">not yet</p>';
 }
 
-function getCardFooterAsHtml(task) {
+function getCardFooterAsHtml(task, id) {
     if (!task.finished) {
         return `        
         <div class="button-holder">
-            <button name="done" class="btn positive" id="${task.id}" data-done-btn>Done</button>
-            <button name="cancel" class="btn negative" id="${task.id}" data-cancel-btn>Cancel</button>
+            <button name="done" class="btn positive" id="${id}" data-done-btn>Done</button>
+            <button name="cancel" class="btn negative" id="${id}" data-cancel-btn>Cancel</button>
         </div>        
         `;
     }
     return `
     <div class="button-holder">
-        <button name="cancel" class="btn negative" id="${task.id}" data-cancel-btn>Delete</button>
+        <button name="cancel" class="btn negative" id="${id}" data-cancel-btn>Delete</button>
     </div>`;
 }
 
@@ -89,7 +89,7 @@ export default class View {
     defaultListDisplay() {
         this.toDoManager.taskList
             .sort((a, b) => sortCreatedDate(a, b))
-            .forEach((task) => this.createTaskCard(task));
+            .forEach((task, id) => this.createTaskCard(task, id));
         listParent.appendChild(this.addNewCardItem);
         this.cardList.forEach((card) => listParent.appendChild(card));
     }
@@ -97,14 +97,14 @@ export default class View {
     finishedListDisplay() {
         this.toDoManager.finishedTasks
         .sort((a, b) => sortCreatedDate(a, b))
-        .forEach((task) => this.createTaskCard(task));
+        .forEach((task, id) => this.createTaskCard(task, id));
         this.cardList.forEach((card) => listParent.appendChild(card));
     }
 
     dueDateSortDisplay() {
         this.toDoManager.taskList
             .sort((a, b) => sortDueDate(a, b))
-            .forEach((task) => this.createTaskCard(task));
+            .forEach((task, id) => this.createTaskCard(task, id));
         listParent.appendChild(this.addNewCardItem);
         this.cardList.forEach((card) => listParent.appendChild(card));
     }
@@ -112,7 +112,7 @@ export default class View {
     importanceSortDisplay() {
         this.toDoManager.taskList
             .sort((a, b) => sortImportance(a, b))
-            .forEach((task) => this.createTaskCard(task));
+            .forEach((task, id) => this.createTaskCard(task, id));
         listParent.appendChild(this.addNewCardItem);
         this.cardList.forEach((card) => listParent.appendChild(card));
     }
@@ -122,10 +122,10 @@ export default class View {
         this.cardList = [];
     }
 
-    createTaskCard(task) {
+    createTaskCard(task, id) {
         const newCard = document.createElement('div');
         newCard.classList.add('task-card');
-        newCard.id = task.id;
+        newCard.id = id;
         const html = `
         <h1>${task.title}</h1>
         <div class="display-property">
@@ -146,7 +146,7 @@ export default class View {
         </div>
         <p class="description">${task.description}</p>
         <p class="msg-line" data-card-msg>nothing to show</p>
-        ${getCardFooterAsHtml(task)}`;
+        ${getCardFooterAsHtml(task, id)}`;
 
         newCard.innerHTML = html;
 
@@ -162,7 +162,7 @@ export default class View {
 
             newCard.innerHTML = html;
             newCard.querySelector('[data-done-btn]').addEventListener('click', () => {
-                this.toDoManager.finishTaskById(task.id);
+                this.toDoManager.finishTaskById(id);
                 this.updateView();
             });
 
@@ -176,12 +176,19 @@ export default class View {
             newCard.addEventListener('mouseleave', (event) => {
                 if (!event.bubbles) newCard.querySelector('[data-card-msg]').style.display = 'none';
             });
+
+            newCard.querySelector('[data-cancel-btn]').addEventListener('click', () => {
+                this.toDoManager.removefromTaskList(id);
+                this.updateView();
+            });
+        } else {
+            newCard.querySelector('[data-cancel-btn]').addEventListener('click', () => {
+                this.toDoManager.removeTaskFromFinishedList(id);
+                this.updateView();
+            });
         }
 
-        newCard.querySelector('[data-cancel-btn]').addEventListener('click', () => {
-            this.toDoManager.removeTaskById(task.id);
-            this.updateView();
-        });
+        
 
         this.cardList.push(newCard);
     }
