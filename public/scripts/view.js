@@ -1,4 +1,5 @@
 import Popup from './popup.js';
+import getKeyByValueFromObject from './utils.js';
 
 const listParent = document.querySelector('[data-task-list]');
 
@@ -86,24 +87,24 @@ export default class View {
     }
 
     defaultListDisplay() {
-        this.toDoManager.taskList
+        this.toDoManager.getTasks()
             .sort((a, b) => sortCreatedDate(a, b))
-            .forEach((task, id) => this.createTaskCard(task, id));
+            .forEach((task) => this.createTaskCard(task));
         listParent.appendChild(this.addNewCardItem);
         this.cardList.forEach((card) => listParent.appendChild(card));
     }
 
     finishedListDisplay() {
-        this.toDoManager.finishedTasks
+        this.toDoManager.getFinishedTask()
         .sort((a, b) => sortCreatedDate(a, b))
-        .forEach((task, id) => this.createTaskCard(task, id));
+        .forEach((task) => this.createTaskCard(task));
         this.cardList.forEach((card) => listParent.appendChild(card));
     }
 
     dueDateSortDisplay() {
-        this.toDoManager.taskList
+        this.toDoManager.getTasks()
             .sort((a, b) => sortDueDate(a, b))
-            .forEach((task, id) => this.createTaskCard(task, id));
+            .forEach((task) => this.createTaskCard(task));
         listParent.appendChild(this.addNewCardItem);
         this.cardList.forEach((card) => listParent.appendChild(card));
     }
@@ -121,8 +122,9 @@ export default class View {
         this.cardList = [];
     }
 
-    createTaskCard(task, id) {
+    createTaskCard(task) {
         const newCard = document.createElement('div');
+        const id = getKeyByValueFromObject(task, this.toDoManager.getTaskListAsArray());
         newCard.classList.add('task-card');
         newCard.id = id;
         const html = `
@@ -175,17 +177,12 @@ export default class View {
             newCard.addEventListener('mouseleave', (event) => {
                 if (!event.bubbles) newCard.querySelector('[data-card-msg]').style.display = 'none';
             });
-
-            newCard.querySelector('[data-cancel-btn]').addEventListener('click', () => {
-                this.toDoManager.removefromTaskList(id);
-                this.updateView();
-            });
-        } else {
-            newCard.querySelector('[data-cancel-btn]').addEventListener('click', () => {
-                this.toDoManager.removeTaskFromFinishedList(id);
-                this.updateView();
-            });
         }
+
+        newCard.querySelector('[data-cancel-btn]').addEventListener('click', () => {
+            this.toDoManager.removefromTaskList(id);
+            this.updateView();
+        });
 
         this.cardList.push(newCard);
     }

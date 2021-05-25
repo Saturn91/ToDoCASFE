@@ -2,21 +2,20 @@ import { getTaskFromSaveIndex, saveToLocalStorage } from './StorageManager.js';
 
 export default class ToDoManager {
     constructor() {
-        this.taskList = [];
-        this.finishedTasks = [];
-        this.loadedItems = [];
+        this.taskList = {};
+        this.taskNum = 0;
         const loadedItems = localStorage.getItem('TaskNumber');
         if (loadedItems != null) {
             for (let i = 0; i < loadedItems; i++) {
-                this.loadedItems.push(getTaskFromSaveIndex(i));
+                this.taskList[this.taskNum] = getTaskFromSaveIndex(i);
+                this.taskNum += 1;
             }
         }
-        this.taskList = this.loadedItems.filter((task) => !task.finished);
-        this.finishedTasks = this.loadedItems.filter((task) => task.finished);
     }
 
     addTask(task) {
-        this.taskList.push(task);
+        this.taskList[this.taskNum] = task;
+        this.taskNum += 1;
         saveToLocalStorage(this);
     }
 
@@ -26,39 +25,43 @@ export default class ToDoManager {
 
     toString() {
         let output = '';
-        this.taskList.forEach((task) => { output += ` ${task.debug()}`; });
+        this.getTaskListAsArray().forEach((task) => { output += ` ${task.debug()}`; });
         return output;
     }
 
     removefromTaskList(id) {
-        if (this.taskList[id] !== undefined && this.taskList[id] !== null) {
-            this.taskList.splice(id, 1);
+        if (this.readTaskByID(id) != null) {
+            this.taskList[id].deleted = true;
             saveToLocalStorage(this);
             return;
         }
         console.error(`unexpected id: ${id} is not contained in this.tasklist!`);
     }
 
-    removeTaskFromFinishedList(id) {
-        if (this.finishedTasks[id] !== undefined && this.finishedTasks[id] !== null) {
-            this.finishedTasks.splice(id, 1);
+    finishTaskById(id) {
+        if (this.taskList[id] !== undefined) {
+            this.taskList[id].finished = true;
+            this.taskList[id].finishDate = new Date();
             saveToLocalStorage(this);
             return;
         }
-        console.error(`unexpected id: ${id} is not contained in this.finishedTasks!`);
-    }
-
-    finishTaskById(id) {
-        const newTask = this.readTaskByID(id);
-        newTask.finished = true;
-        newTask.finishDate = new Date();
-        this.updateTask(id, newTask);
-        this.finishedTasks.push(this.taskList.splice(id, 1)[0]);
-        saveToLocalStorage(this);
+        console.error(`id: ${id} does not exist in taskList`);
     }
 
     updateTask(id, task) {
         this.taskList[id] = task;
         saveToLocalStorage(this);
+    }
+
+    getTaskListAsArray() {
+        return Object.values(this.taskList);
+    }
+
+    getFinishedTask() {
+        return this.getTaskListAsArray().filter((task) => task.finished && !task.deleted);
+    }
+
+    getTasks() {
+        return this.getTaskListAsArray().filter((task) => !task.deleted && !task.finished);
     }
 }

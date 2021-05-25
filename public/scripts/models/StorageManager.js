@@ -16,6 +16,7 @@ function generateSaveProperties(saveIndex, task) {
     generateSaveProperty(saveIndex, 'createDate', task.createDate);
     generateSaveProperty(saveIndex, 'importance', task.importance);
     generateSaveProperty(saveIndex, 'finished', task.finished ? 1 : 0);
+    generateSaveProperty(saveIndex, 'deleted', task.deleted ? 1 : 0);
 }
 
 export function getTaskFromSaveIndex(saveIndex) {
@@ -28,6 +29,7 @@ export function getTaskFromSaveIndex(saveIndex) {
             new Date(getSaveProperty(saveIndex, 'createDate')),
             new Date(getSaveProperty(saveIndex, 'finishDate')),
             Number(getSaveProperty(saveIndex, 'finished')) === 1,
+            Number(getSaveProperty(saveIndex, 'deleted')) === 1,
         );
     }
         console.error(`load Task from saveIndex: ${saveIndex} failed...`);
@@ -36,10 +38,6 @@ export function getTaskFromSaveIndex(saveIndex) {
 
 export function saveToLocalStorage(todoManager) {
     localStorage.clear();
-    todoManager.taskList.forEach((task, index) => generateSaveProperties(index, task));
-    todoManager.finishedTasks
-        .forEach(
-        (task, index) => generateSaveProperties(todoManager.taskList.length + index, task),
-        );
-    localStorage.setItem('TaskNumber', todoManager.taskList.length + todoManager.finishedTasks.length);
+    todoManager.getTaskListAsArray().forEach((task, index) => generateSaveProperties(index, task));
+    localStorage.setItem('TaskNumber', todoManager.getTaskListAsArray().length);
 }
