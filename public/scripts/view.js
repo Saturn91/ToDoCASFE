@@ -150,7 +150,11 @@ export default class View {
         ${getCardFooterAsHtml(task, id)}`;
 
         newCard.innerHTML = html;
+        this.addEventlisteners(newCard, task);
+        this.cardList.push(newCard);
+    }
 
+    addEventlisteners(newCard, task) {
         if (!task.finished) {
             newCard.addEventListener('click', (event) => {
                 if (event.target.name !== 'done' && event.target.name !== 'cancel') {
@@ -160,8 +164,6 @@ export default class View {
                         );
                 }
             });
-
-            newCard.innerHTML = html;
             newCard.querySelector('[data-done-btn]').addEventListener('click', () => {
                 this.toDoManager.finishTaskById(id);
                 this.updateView();
@@ -171,11 +173,12 @@ export default class View {
                 const msgBox = newCard.querySelector('[data-card-msg]');
                 msgBox.style.display = 'block';
                 msgBox.innerHTML = 'click to edit';
-                setTimeout(() => { newCard.querySelector('[data-card-msg]').style = 'none'; }, 1000);
+                setTimeout(() => { msgBox.style.display = 'none'; }, 1000);
             });
 
             newCard.addEventListener('mouseleave', (event) => {
-                if (!event.bubbles) newCard.querySelector('[data-card-msg]').style.display = 'none';
+                const msgBox = newCard.querySelector('[data-card-msg]');
+                if (!event.bubbles) msgBox.style.display = 'none';
             });
         }
 
@@ -183,7 +186,5 @@ export default class View {
             this.toDoManager.removefromTaskList(id);
             this.updateView();
         });
-
-        this.cardList.push(newCard);
     }
 }
