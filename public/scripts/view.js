@@ -19,7 +19,6 @@ function sortDueDate(a, b) {
 }
 
 function getFinishedDateAsHtml(task) {
-    console.log();
     return task.finished ? `<p class='property'>${task.finishDate.getDate()}/${task.dueDate.getMonth() + 1}/${task.finishDate.getFullYear()}</p>` : '<p class="property">not yet</p>';
 }
 
@@ -187,8 +186,6 @@ export default class View {
                 this.updateView();
             });
         }
-
-        
 
         this.cardList.push(newCard);
     }
