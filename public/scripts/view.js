@@ -150,11 +150,11 @@ export default class View {
         ${getCardFooterAsHtml(task, id)}`;
 
         newCard.innerHTML = html;
-        this.addEventlisteners(newCard, task);
+        this.addEventlisteners(newCard, task, id);
         this.cardList.push(newCard);
     }
 
-    addEventlisteners(newCard, task) {
+    addEventlisteners(newCard, task, id) {
         if (!task.finished) {
             newCard.addEventListener('click', (event) => {
                 if (event.target.name !== 'done' && event.target.name !== 'cancel') {
