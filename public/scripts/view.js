@@ -160,7 +160,7 @@ export default class View {
                 if (event.target.name !== 'done' && event.target.name !== 'cancel') {
                     this.editpopup.show(
                         true,
-                        this.toDoManager.readTaskByID(Number(event.currentTarget.id)),
+                        this.toDoManager.readTaskByID(Number.parseInt(event.currentTarget.id, 10)),
                         );
                 }
             });
