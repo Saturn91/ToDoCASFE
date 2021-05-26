@@ -110,7 +110,7 @@ export default class View {
     }
 
     importanceSortDisplay() {
-        this.toDoManager.taskList
+        this.toDoManager.getTasks()
             .sort((a, b) => sortImportance(a, b))
             .forEach((task, id) => this.createTaskCard(task, id));
         listParent.appendChild(this.addNewCardItem);

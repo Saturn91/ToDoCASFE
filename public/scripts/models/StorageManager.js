@@ -1,42 +1,35 @@
 import Task from './task.js';
 
-function generateSaveProperty(saveIndex, property, value) {
-    localStorage.setItem(`task_${saveIndex}_${property}`, value);
-}
-
-function getSaveProperty(saveIndex, property) {
-    return localStorage.getItem(`task_${saveIndex}_${property}`);
-}
+const taskSaveString = 'task_';
+const taskNumberSaveString = 'TaskNumber';
 
 function generateSaveProperties(saveIndex, task) {
-    generateSaveProperty(saveIndex, 'title', task.title);
-    generateSaveProperty(saveIndex, 'description', task.description);
-    generateSaveProperty(saveIndex, 'finishDate', task.finishDate);
-    generateSaveProperty(saveIndex, 'dueDate', task.dueDate);
-    generateSaveProperty(saveIndex, 'createDate', task.createDate);
-    generateSaveProperty(saveIndex, 'importance', task.importance);
-    generateSaveProperty(saveIndex, 'finished', task.finished ? 1 : 0);
+    localStorage.setItem(`task_${saveIndex}`, JSON.stringify(task));
 }
 
 export function getTaskFromSaveIndex(saveIndex) {
-    if (getSaveProperty(saveIndex, 'title') !== undefined && getSaveProperty(saveIndex, 'title') !== null) {
-        return new Task(
-            getSaveProperty(saveIndex, 'title'),
-            getSaveProperty(saveIndex, 'description'),
-            getSaveProperty(saveIndex, 'importance'),
-            new Date(getSaveProperty(saveIndex, 'dueDate')),
-            new Date(getSaveProperty(saveIndex, 'createDate')),
-            new Date(getSaveProperty(saveIndex, 'finishDate')),
-            Number(getSaveProperty(saveIndex, 'finished')) === 1,
-        );
-    }
+    const data = JSON.parse(localStorage.getItem(`${taskSaveString}${saveIndex}`));
+    const task = new Task(data.title, data.description, data.importance, new Date(data.dueDate),
+        new Date(data.createDate), new Date(data.finishDate), data.finished);
+
+    if (task === undefined) {
         console.error(`load Task from saveIndex: ${saveIndex} failed...`);
         return null;
+    }
+
+    return task;
+}
+
+/* use this instead of localStorage.clear (which clears everything!) */
+function clearTasksInLocalStorage() {
+    for (let i = 0; i < localStorage.getItem(taskNumberSaveString); i++) {
+        localStorage.removeItem(`${taskSaveString}${i}`);
+    }
 }
 
 export function saveToLocalStorage(todoManager) {
-    localStorage.clear();
+    clearTasksInLocalStorage();
     const tasksToSave = todoManager.getTaskListAsArray().filter((task) => !task.deleted);
     tasksToSave.forEach((task, index) => generateSaveProperties(index, task));
-    localStorage.setItem('TaskNumber', tasksToSave.length);
+    localStorage.setItem(taskNumberSaveString, tasksToSave.length);
 }
