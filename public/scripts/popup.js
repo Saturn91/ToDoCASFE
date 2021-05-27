@@ -11,7 +11,7 @@ export default class Popup {
     constructor(view, toDoManager) {
         this.view = view;
         this.toDoManager = toDoManager;
-        this.popUpWindow = document.querySelector('[data-popup]');
+        this.popUpWindow = document.querySelector('[data-edit-popup]');
         this.doOnSubmitFunction = this.submitNewTask;
         if (Popup.newTaskSubmitBtn === undefined) {
             Popup.newTaskSubmitBtn = document.querySelector('[data-submit-task]');

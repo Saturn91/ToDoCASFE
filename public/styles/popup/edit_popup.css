@@ -1,0 +1,38 @@
+.size-edit {
+    width: 30vw;
+    min-width: 550px;
+    height: 75vh;
+    min-height: 500px;
+}
+
+.input-new-task-form{
+    height: 100%;
+    display: flex;
+    padding: 5px;
+    flex-direction: column;
+}
+
+.input-new-task-form * {
+    color: var(--col_default_text);
+    background-color: var(--col_lightest);
+    font-size: 1.2rem;
+}
+
+.input-new-task-form .form-description {
+    padding: 0;
+    height: 100%;
+}
+
+.input-new-task-form .inline-properties {
+    padding: 5px 0;
+    display: inline-block;
+}
+
+.inline-properties .form-date {
+    float: left;
+}
+
+.inline-properties .form-prio {
+    float: right;
+}
+

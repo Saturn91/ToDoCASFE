@@ -12,7 +12,9 @@
   <!-- styles -->
   <link rel="stylesheet" href="styles/main.css">
   <link rel="stylesheet" href="styles/taskList.css">
-  <link rel="stylesheet" href="styles/popup.css">
+  <link rel="stylesheet" href="styles/popup/popup.css">
+  <link rel="stylesheet" href="styles/popup/edit_popup.css">
+  <link rel="stylesheet" href="styles/popup/warning_popup.css"> 
   <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;700&display=swap" rel="stylesheet"> 
   <!--/styles -->
 </head>
@@ -54,9 +56,9 @@
 </div>
 <!--/main page layout-->
 
-<!-- Pop up -->
-<div class="popup-background" data-popup>
-  <div class="popup-body">
+<!-- Add/Edit Task Pop up -->
+<div class="popup-background" data-edit-popup>
+  <div class="popup-body size-edit">
     <div class="popup-header">
       <h1 data-form-title>Add Task</h1>
       <button class="close-window-btn" data-close-popup>x</button>
@@ -88,6 +90,25 @@
     </div>
   </div>
 </div>
-<!--/Pop up -->
+<!--/ Add/Edit Task Pop up -->
+<!-- are you sure ... popup -->
+<div class="popup-background" data-warning-popup>
+  <div class="popup-body size-warning">
+    <div class="popup-header">
+      <h1 data-warning-title>Are you sure?</h1>
+      <button class="close-window-btn" data-warning-cancel>x</button>
+    </div>
+    <div class="popup-content">
+      <p data-warning-msg>msg</p>
+      <div class="popup-footer">
+        <div class="button-holder">
+          <button class="btn positive" data-warning-confirm>Yes</button>
+        <button class="btn negative" data-warning-cancel>No</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!--/are you sure ... popup -->
 </body>
 </html>
