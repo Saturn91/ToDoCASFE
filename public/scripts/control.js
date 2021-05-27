@@ -1,10 +1,11 @@
 import ToDoManager from './models/todomanager.js';
 import View from './view.js';
-import Popup from './popup.js';
+import PopupService from './view/popup-service.js';
+import showWarningPopUp from './view/warning-popup.js';
 
 const toDoManager = new ToDoManager();
 const view = new View(toDoManager);
-const addNewCardPopup = new Popup(view, toDoManager);
+const addNewCardPopup = new PopupService(view, toDoManager);
 addNewCardPopup.show(false);
 view.updateView(view.displayType.createdDate);
 
@@ -25,34 +26,6 @@ function toggleDarkTheme(event) {
 
 const selectTheme = document.querySelector('[data_theme]');
 selectTheme.addEventListener('change', (event) => toggleDarkTheme(event));
-
-const warningPopup = document.querySelector('[data-warning-popup]');
-let callbackFunctionOnCloseWarning = null;
-let callbackFunctionOnConfirmWarning = null;
-
-document.querySelector('[data-warning-confirm]').addEventListener('click', () => {
-    if (callbackFunctionOnConfirmWarning != null) {
-        callbackFunctionOnConfirmWarning();
-    }
-
-    warningPopup.style.display = 'none';
-});
-
-document.querySelectorAll('[data-warning-cancel]').forEach((btn) => btn.addEventListener('click', () => {
-    if (callbackFunctionOnCloseWarning != null) {
-        callbackFunctionOnCloseWarning();
-    }
-
-    warningPopup.style.display = 'none';
-}));
-
-export default function showWarningPopUp(title, msg, callbackOnYes, callBackOnNo) {
-    warningPopup.style.display = 'block';
-    document.querySelector('[data-warning-title]').textContent = title;
-    document.querySelector('[data-warning-msg]').textContent = msg;
-    callbackFunctionOnConfirmWarning = callbackOnYes;
-    callbackFunctionOnCloseWarning = callBackOnNo;
-}
 
 const addTaskBtn = document.querySelectorAll('[data-add-task]');
 const closeBtns = document.querySelectorAll('[data-close-popup]');

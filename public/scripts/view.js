@@ -1,5 +1,6 @@
-import Popup from './popup.js';
+import PopupService from './view/popup-service.js';
 import getKeyByValueFromObject from './utils.js';
+import showWarningPopUp from './view/warning-popup.js';
 
 const listParent = document.querySelector('[data-task-list]');
 
@@ -50,7 +51,7 @@ function getPriorityHtml(task) {
 export default class View {
     constructor(toDoManager) {
         this.toDoManager = toDoManager;
-        this.editpopup = new Popup(this, this.toDoManager);
+        this.editpopup = new PopupService(this, this.toDoManager);
         this.addNewCardItem = listParent.querySelector('.first');
         this.cardList = [];
         this.displayType = {
@@ -164,10 +165,10 @@ export default class View {
                         );
                 }
             });
-            newCard.querySelector('[data-done-btn]').addEventListener('click', () => {
+            newCard.querySelector('[data-done-btn]').addEventListener('click', () => showWarningPopUp('Finish Task?', 'By answering yes the task will get moved into the "finished Task" list', () => {
                 this.toDoManager.finishTaskById(id);
                 this.updateView();
-            });
+            }));
 
             newCard.addEventListener('mouseover', () => {
                 const msgBox = newCard.querySelector('[data-card-msg]');
@@ -182,9 +183,9 @@ export default class View {
             });
         }
 
-        newCard.querySelector('[data-cancel-btn]').addEventListener('click', () => {
+        newCard.querySelector('[data-cancel-btn]').addEventListener('click', () => showWarningPopUp('Deleting Task?', 'By answering yes the task will get deleted permanently!', () => {
             this.toDoManager.removefromTaskList(id);
             this.updateView();
-        });
+        }));
     }
 }

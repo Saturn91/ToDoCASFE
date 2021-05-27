@@ -1,5 +1,5 @@
 /* Popup show/hide */
-import Task from './models/task.js';
+import Task from '../models/task.js';
 
 function getLocalFromDate(date) {
     const local = date;
@@ -7,15 +7,15 @@ function getLocalFromDate(date) {
     return local.toJSON().slice(0, 10);
 }
 
-export default class Popup {
+export default class PopupService {
     constructor(view, toDoManager) {
         this.view = view;
         this.toDoManager = toDoManager;
         this.popUpWindow = document.querySelector('[data-edit-popup]');
         this.doOnSubmitFunction = this.submitNewTask;
-        if (Popup.newTaskSubmitBtn === undefined) {
-            Popup.newTaskSubmitBtn = document.querySelector('[data-submit-task]');
-            Popup.newTaskSubmitBtn.addEventListener('click', () => {
+        if (PopupService.newTaskSubmitBtn === undefined) {
+            PopupService.newTaskSubmitBtn = document.querySelector('[data-submit-task]');
+            PopupService.newTaskSubmitBtn.addEventListener('click', () => {
                 if (this.doOnSubmitFunction(this)) {
                     this.view.updateView(this.view.displayType.createdDate);
                     this.show(false);
@@ -37,11 +37,11 @@ export default class Popup {
 
             if (task !== undefined) {
                 this.windowTitle.textContent = 'View Task';
-                Popup.newTaskSubmitBtn.textContent = 'Update';
+                PopupService.newTaskSubmitBtn.textContent = 'Update';
                 this.editTask(task);
             } else {
                 this.windowTitle.textContent = 'Add new Task';
-                Popup.newTaskSubmitBtn.textContent = 'Add';
+                PopupService.newTaskSubmitBtn.textContent = 'Add';
                 this.addNewTask();
             }
         } else {
