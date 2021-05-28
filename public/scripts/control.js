@@ -1,12 +1,9 @@
 import ToDoManager from './models/todomanager.js';
 import View from './view.js';
-import PopupService from './view/popup-service.js';
-import showWarningPopUp from './view/warning-popup.js';
+import showEditTaskPopUp from './view/edit-popup.js';
 
 const toDoManager = new ToDoManager();
 const view = new View(toDoManager);
-const addNewCardPopup = new PopupService(view, toDoManager);
-addNewCardPopup.show(false);
 view.updateView(view.displayType.createdDate);
 
 /* sort and display btns */
@@ -28,7 +25,8 @@ const selectTheme = document.querySelector('[data_theme]');
 selectTheme.addEventListener('change', (event) => toggleDarkTheme(event));
 
 const addTaskBtn = document.querySelectorAll('[data-add-task]');
-const closeBtns = document.querySelectorAll('[data-close-popup]');
 
-addTaskBtn.forEach((button) => button.addEventListener('click', () => addNewCardPopup.show(true)));
-closeBtns.forEach((item) => item.addEventListener('click', () => showWarningPopUp('Are sure you want to cancel?', 'By answering yes you you loose all the data entered in the form', () => addNewCardPopup.show(false))));
+addTaskBtn.forEach((button) => button.addEventListener('click', () => showEditTaskPopUp((newTask) => {
+    toDoManager.addTask(newTask);
+    view.updateView(view.displayType.createdDate);
+})));

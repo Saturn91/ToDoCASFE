@@ -1,4 +1,4 @@
-import PopupService from './view/popup-service.js';
+import showEditTaskPopUp from './view/edit-popup.js';
 import getKeyByValueFromObject from './utils.js';
 import showWarningPopUp from './view/warning-popup.js';
 
@@ -51,7 +51,6 @@ function getPriorityHtml(task) {
 export default class View {
     constructor(toDoManager) {
         this.toDoManager = toDoManager;
-        this.editpopup = new PopupService(this, this.toDoManager);
         this.addNewCardItem = listParent.querySelector('.first');
         this.cardList = [];
         this.displayType = {
@@ -159,8 +158,11 @@ export default class View {
         if (!task.finished) {
             newCard.addEventListener('click', (event) => {
                 if (event.target.name !== 'done' && event.target.name !== 'cancel') {
-                    this.editpopup.show(
-                        true,
+                    showEditTaskPopUp(
+                        (updatedTask) => {
+                            this.toDoManager.updateTask(id, updatedTask);
+                            this.updateView(this.displayType.sortDueDate);
+                        },
                         task,
                     );
                 }
