@@ -1,7 +1,7 @@
 Current State of the Project:
 
 ![GitHub Logo](/documentation/Overview.png)
-Format: ![Image not found...](url)
+Format: ![Overivew of todos and Project](url)
 
 
 Die Vorlage beinhaltet CSS/HTML/JS-Linter. Diese sind konfiguriert. 
