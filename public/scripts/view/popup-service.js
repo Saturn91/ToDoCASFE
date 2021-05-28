@@ -1,5 +1,6 @@
 /* Popup show/hide */
 import Task from '../models/task.js';
+import getKeyByValueFromObject from '../utils.js';
 
 function getLocalFromDate(date) {
     const local = date;
@@ -7,20 +8,46 @@ function getLocalFromDate(date) {
     return local.toJSON().slice(0, 10);
 }
 
+function submitTaskEdit(popup) {
+    if (popup.checknewTaskFormValid()) {
+            popup.toDoManager.updateTask(
+                getKeyByValueFromObject(popup.taskMemory, popup.toDoManager.taskList),
+                new Task(
+                    popup.formTitle.value,
+                    popup.formDescription.value,
+                    popup.formPriority.value,
+                    new Date(popup.formDueDate.value),
+                ),
+            );
+        return true;
+    }
+    return false;
+}
+
+function submitNewTask(popup) {
+    if (popup.checknewTaskFormValid()) {
+        popup.toDoManager.addTask(
+            new Task(
+                popup.formTitle.value,
+                popup.formDescription.value,
+                popup.formPriority.value,
+                new Date(popup.formDueDate.value),
+                ),
+        );
+        return true;
+    }
+    return false;
+}
+
 export default class PopupService {
     constructor(view, toDoManager) {
         this.view = view;
         this.toDoManager = toDoManager;
         this.popUpWindow = document.querySelector('[data-edit-popup]');
-        this.doOnSubmitFunction = this.submitNewTask;
+        PopupService.doOnSubmitFunction = submitNewTask;
         if (PopupService.newTaskSubmitBtn === undefined) {
             PopupService.newTaskSubmitBtn = document.querySelector('[data-submit-task]');
-            PopupService.newTaskSubmitBtn.addEventListener('click', () => {
-                if (this.doOnSubmitFunction(this)) {
-                    this.view.updateView(this.view.displayType.createdDate);
-                    this.show(false);
-                }
-            });
+            PopupService.newTaskSubmitBtn.addEventListener('click', () => handleSubmitForm(this));
         }
         this.formTitle = this.popUpWindow.querySelector('input[name="title"]');
         this.formDescription = this.popUpWindow.querySelector('textarea[name="description"]');
@@ -54,22 +81,7 @@ export default class PopupService {
         this.formDueDate.value = getLocalFromDate(new Date());
         this.formDescription.value = '';
         this.formPriority.value = 3;
-        this.doOnSubmitFunction = this.submitNewTask;
-    }
-
-    submitNewTask(popup) {
-        if (this.checknewTaskFormValid()) {
-            this.toDoManager.addTask(
-                new Task(
-                    popup.formTitle.value,
-                    popup.formDescription.value,
-                    popup.formPriority.value,
-                    new Date(popup.formDueDate.value),
-                    ),
-            );
-            return true;
-        }
-        return false;
+        PopupService.doOnSubmitFunction = submitNewTask;
     }
 
     editTask(task) {
@@ -77,24 +89,8 @@ export default class PopupService {
         this.formPriority.value = task.importance;
         this.formDueDate.value = getLocalFromDate(new Date(task.dueDate));
         this.formDescription.value = task.description;
-        this.doOnSubmitFunction = this.submitTaskEdit;
         this.taskMemory = task;
-    }
-
-    submitTaskEdit(popup) {
-        if (this.checknewTaskFormValid()) {
-                this.toDoManager.updateTask(
-                    popup.taskMemory.id,
-                    new Task(
-                        popup.formTitle.value,
-                        popup.formDescription.value,
-                        popup.formPriority.value,
-                        new Date(popup.formDueDate.value),
-                    ),
-                );
-            return true;
-        }
-        return false;
+        PopupService.doOnSubmitFunction = submitTaskEdit;
     }
 
     showInvalid(msg) {
@@ -117,5 +113,12 @@ export default class PopupService {
             valid = false;
         }
         return valid;
+    }
+}
+
+function handleSubmitForm(popup) {
+    if (PopupService.doOnSubmitFunction(popup)) {
+        popup.view.updateView(popup.view.displayType.createdDate);
+        popup.show(false);
     }
 }

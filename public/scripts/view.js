@@ -151,23 +151,23 @@ export default class View {
         ${getCardFooterAsHtml(task, id)}`;
 
         newCard.innerHTML = html;
-        this.addEventlisteners(newCard, task, id);
+        this.addEventlisteners(newCard, task, id, this.toDoManager, this);
         this.cardList.push(newCard);
     }
 
-    addEventlisteners(newCard, task, id) {
+    addEventlisteners(newCard, task, id, toDoManager, view) {
         if (!task.finished) {
             newCard.addEventListener('click', (event) => {
                 if (event.target.name !== 'done' && event.target.name !== 'cancel') {
                     this.editpopup.show(
                         true,
-                        this.toDoManager.readTaskByID(Number.parseInt(event.currentTarget.id, 10)),
-                        );
+                        task,
+                    );
                 }
             });
             newCard.querySelector('[data-done-btn]').addEventListener('click', () => showWarningPopUp('Finish Task?', 'By answering yes the task will get moved into the "finished Task" list', () => {
-                this.toDoManager.finishTaskById(id);
-                this.updateView();
+                toDoManager.finishTaskById(id);
+                view.updateView();
             }));
 
             newCard.addEventListener('mouseover', () => {
