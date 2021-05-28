@@ -1,20 +1,10 @@
-Die Vorlage beinhaltet CSS/HTML/JS-Linter. Diese sind konfiguriert. 
+Current State of the Project:
 
-Getting Started
-1. Entzippen von der Vorlage.
-2. Installieren Sie die Dependencies der Vorlage
-   - Console/Terminal: «npm install» im Root vom Projekt
-3. Testen Sie, ob alles richtig installiert wurde
-   - Console: «npm run all» im Root vom Projekt
-   - Erwarte Ausgabe: 1 Warnungen und «npm run all completed»
-4. Woche 1
-   - HTML Gerüst erstellen für die Wireframes und Beginn CSS:
-      - /public/index.html
-      - /public/styles/index.css
-   - Webstorm:
-      - /public/index.html "ausführen".
-   - Visual Studio Code:
-      - Live Server nutzen: https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer    
+![GitHub Logo](/documentation/Overview.png)
+Format: ![Image not found...](url)
+
+
+Die Vorlage beinhaltet CSS/HTML/JS-Linter. Diese sind konfiguriert. 
 
 Folgende Befehle sind dann möglich
 
