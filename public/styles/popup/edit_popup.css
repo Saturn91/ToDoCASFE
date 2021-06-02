@@ -36,3 +36,13 @@
     float: right;
 }
 
+.input-new-task-form .positive {
+    background-color: var(--col_col1_positive);
+    color: var(--col_light_text);
+}
+
+.input-new-task-form .negative {
+    background-color: var(--col_col2_negativ);
+    color: var(--col_light_text);
+}
+

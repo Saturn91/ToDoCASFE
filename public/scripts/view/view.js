@@ -1,5 +1,5 @@
 import showEditTaskPopUp from './edit-popup.js';
-import getKeyByValueFromObject from '../utils.js';
+import Util from '../utils.js';
 import showWarningPopUp from './warning-popup.js';
 
 const listParent = document.querySelector('[data-task-list]');
@@ -124,7 +124,7 @@ export default class View {
 
     createTaskCard(task) {
         const newCard = document.createElement('div');
-        const id = getKeyByValueFromObject(task, this.toDoManager.getTaskListAsArray());
+        const id = Util.getKeyByValueFromObject(task, this.toDoManager.getTaskListAsArray());
         newCard.classList.add('task-card');
         newCard.id = id;
         const html = `
