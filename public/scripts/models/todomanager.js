@@ -1,4 +1,4 @@
-import { getTaskFromSaveIndex, saveToLocalStorage } from './StorageManager.js';
+import { getTaskFromSaveIndex, saveToLocalStorage } from './data/task-storage-manager.js';
 
 export default class ToDoManager {
     constructor() {

@@ -1,6 +1,7 @@
 import ToDoManager from './models/todomanager.js';
 import View from './view/view.js';
 import showEditTaskPopUp from './view/edit-popup.js';
+import propertyStorage from './models/data/property-storage-manager.js';
 
 const toDoManager = new ToDoManager();
 const view = new View(toDoManager);
@@ -19,6 +20,14 @@ function toggleDarkTheme(event) {
     } else {
         document.body.classList.add('dark-theme');
     }
+    propertyStorage.storeProperties(event.target.value);
+}
+
+/* load theme from storage */
+if (propertyStorage.getProperties().theme === 'light') {
+    document.body.classList.remove('dark-theme');
+} else {
+    document.body.classList.add('dark-theme');
 }
 
 const selectTheme = document.querySelector('[data_theme]');

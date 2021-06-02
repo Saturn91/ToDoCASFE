@@ -1,4 +1,4 @@
-import Task from './task.js';
+import Task from '../task.js';
 
 const taskSaveString = 'task_';
 const taskNumberSaveString = 'TaskNumber';
