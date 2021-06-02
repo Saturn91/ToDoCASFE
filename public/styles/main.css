@@ -99,6 +99,6 @@ h1 {
 .msg-line { 
     display: none;
     padding: 0 5px;
-    background-color: var(--col_col3_warning);
-    color: var(--col_default_text);
+    background-color: var(--col_col3_warning) !important;
+    color: var(--col_default_text) !important;
 }
