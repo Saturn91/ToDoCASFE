@@ -1,5 +1,5 @@
 import ToDoManager from './models/todomanager.js';
-import View from './view.js';
+import View from './view/view.js';
 import showEditTaskPopUp from './view/edit-popup.js';
 
 const toDoManager = new ToDoManager();

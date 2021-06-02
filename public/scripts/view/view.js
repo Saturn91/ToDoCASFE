@@ -1,6 +1,6 @@
-import showEditTaskPopUp from './view/edit-popup.js';
-import getKeyByValueFromObject from './utils.js';
-import showWarningPopUp from './view/warning-popup.js';
+import showEditTaskPopUp from './edit-popup.js';
+import getKeyByValueFromObject from '../utils.js';
+import showWarningPopUp from './warning-popup.js';
 
 const listParent = document.querySelector('[data-task-list]');
 
