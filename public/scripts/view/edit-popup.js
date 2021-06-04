@@ -2,6 +2,8 @@ import showWarningPopUp from './warning-popup.js';
 import Task from '../models/task.js';
 import Util from '../utils.js';
 
+const forbiddenCharacters = new RegExp('[<,>]');
+
 const editTaskForm = document.querySelector('[data-form-new-task]');
 const editTaskPopup = document.querySelector('[data-edit-popup]');
 const formTitle = editTaskPopup.querySelector('input[name="title"]');
@@ -25,6 +27,11 @@ function checknewTaskFormValid() {
         showInvalid('please enter a description');
         valid = false;
     }
+    if (forbiddenCharacters.test(formDescription.value)
+    || forbiddenCharacters.test(formTitle.value)) {
+        showInvalid('Do not use characters "<" or ">"!');
+        valid = false;
+    }
     if (!formPriority.checkValidity()) {
         showInvalid('priority has to be a value between 1 and 3');
         valid = false;
@@ -36,20 +43,18 @@ function checknewTaskFormValid() {
     return valid;
 }
 
-submitBtn.addEventListener('click', () => {
-    checknewTaskFormValid();
-});
-
 editTaskForm.addEventListener('submit', (event) => {
     event.preventDefault();
     if (callbackFunctionOnConfirmEditPopup != null) {
-        callbackFunctionOnConfirmEditPopup(new Task(
-            formTitle.value,
-            formDescription.value,
-            formPriority.value,
-            new Date(formDueDate.value),
-        ));
-        editTaskPopup.style.display = 'none';
+        if (checknewTaskFormValid()) {
+            callbackFunctionOnConfirmEditPopup(new Task(
+                formTitle.value,
+                formDescription.value,
+                formPriority.value,
+                new Date(formDueDate.value),
+            ));
+            editTaskPopup.style.display = 'none';
+        }
     }
 });
 
