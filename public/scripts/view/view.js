@@ -3,7 +3,9 @@ import Util from '../utils.js';
 import showWarningPopUp from './warning-popup.js';
 
 const listParent = document.querySelector('[data-task-list]');
-
+const cardDetailsCompiled = Handlebars.compile(document.getElementById('card-details-template').innerHTML);
+const cardFooterTodo = Handlebars.compile(document.getElementById('task-btn-holder-todo-template').innerHTML);
+const cardFooterDone = Handlebars.compile(document.getElementById('task-btn-holder-done-template').innerHTML);
 function sortCreatedDate(a, b) {
     return a.createdDate - b.createdDate;
 }
@@ -21,30 +23,18 @@ function sortDueDate(a, b) {
 }
 
 function getFinishedDateAsHtml(task) {
-    return task.finished ? `<p class='property'>${task.finishDate.getDate()}/${task.dueDate.getMonth() + 1}/${task.finishDate.getFullYear()}</p>` : '<p class="property">not yet</p>';
+    return task.finished ? `${task.finishDate.getDate()}/${task.dueDate.getMonth() + 1}/${task.finishDate.getFullYear()}` : 'not yet';
 }
 
-function getCardFooterAsHtml(task, id) {
-    if (!task.finished) {
-        return `        
-        <div class="button-holder">
-            <button name="done" class="btn positive" id="${id}" data-done-btn>Done</button>
-            <button name="cancel" class="btn negative" id="${id}" data-cancel-btn>Cancel</button>
-        </div>        
-        `;
-    }
-    return `
-    <div class="button-holder">
-        <button name="cancel" class="btn negative" id="${id}" data-cancel-btn>Delete</button>
-    </div>`;
+function getCardFooterAsHtml(task, _id) {
+    return task.finished ? cardFooterDone({id: _id}) : cardFooterTodo({id: _id});
 }
 
 function getPriorityHtml(task) {
-    let html = '<p class="property">';
+    let html = '';
     for (let i = 0; i < task.importance; i++) {
         html += '*';
     }
-    html += '</p>';
     return html;
 }
 
@@ -127,29 +117,15 @@ export default class View {
         const id = Util.getKeyByValueFromObject(task, this.toDoManager.getTaskListAsArray());
         newCard.classList.add('task-card');
         newCard.id = id;
-        const html = `
-        <h1>${task.title}</h1>
-        <div class="display-property">
-          <p class='label'>priority:</p>
-          <p class='property'>${getPriorityHtml(task)}</p>
-        </div>
-        <div class="display-property">
-          <p class='label'>due:</p>
-          <p class='property'>${task.dueDate.getDate()}/${task.dueDate.getMonth() + 1}/${task.dueDate.getFullYear()}</p>
-        </div>
-        <div class="display-property">
-          <p class='label'>created:</p>
-          <p class='property'>${task.createDate.getDate()}/${task.dueDate.getMonth() + 1}/${task.createDate.getFullYear()}</p>
-        </div>
-        <div class="display-property line-bottem">
-          <p class='label'>finished:</p>
-          ${getFinishedDateAsHtml(task)}
-        </div>
-        <p class="description">${task.description}</p>
-        <p class="msg-line" data-card-msg>nothing to show</p>
-        ${getCardFooterAsHtml(task, id)}`;
-
-        newCard.innerHTML = html;
+        const html = cardDetailsCompiled(
+            {title: task.title,
+            priority: getPriorityHtml(task),
+            dueDateString: `${task.dueDate.getDate()}/${task.dueDate.getMonth() + 1}/${task.dueDate.getFullYear()}`,
+            createDateString: `${task.createDate.getDate()}/${task.dueDate.getMonth() + 1}/${task.createDate.getFullYear()}`,
+            finshedDateString: `${getFinishedDateAsHtml(task)}`,
+            description: task.description},
+            );
+        newCard.innerHTML = html + getCardFooterAsHtml(task, id);
         this.addEventlisteners(newCard, task, id, this.toDoManager, this);
         this.cardList.push(newCard);
     }

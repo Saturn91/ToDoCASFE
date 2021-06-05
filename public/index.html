@@ -17,6 +17,41 @@
   <link rel="stylesheet" href="styles/popup/warning_popup.css"> 
   <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;700&display=swap" rel="stylesheet"> 
   <!--/styles -->
+
+  <script id="card-details-template" type="text/x-handlebars-template">
+      <h1>{{title}}</h1>
+      <div class="display-property">
+        <p class='label'>priority:</p>
+        <p class='property'>{{priority}}</p>
+      </div>
+      <div class="display-property">
+        <p class='label'>due:</p>
+        <p class='property'>{{dueDateString}}</p>
+      </div>
+      <div class="display-property">
+        <p class='label'>created:</p>
+        <p class='property'>{{createDateString}}</p>
+      </div>
+      <div class="display-property line-bottem">
+        <p class='label'>finished:</p>
+        <p class='property'>{{finshedDateString}}</p>
+      </div>
+      <p class="description">{{description}}</p>
+      <p class="msg-line" data-card-msg>nothing to show</p>
+  </script>
+
+  <script id='task-btn-holder-todo-template' type="text/x-handlebars-template">
+    <div class="button-holder">
+      <button name="done" class="btn positive" id="{{id}}" data-done-btn>Done</button>
+      <button name="cancel" class="btn negative" id="{{id}}" data-cancel-btn>Cancel</button>
+    </div>
+  </script>
+
+  <script id='task-btn-holder-done-template' type="text/x-handlebars-template">
+    <div class="button-holder">
+        <button name="cancel" class="btn negative" id="{{id}}" data-cancel-btn>Delete</button>
+    </div>
+  </script>
 </head>
 <body>
 <!--main page layout-->
