@@ -2,7 +2,7 @@ import showWarningPopUp from './warning-popup.js';
 import Task from '../models/task.js';
 import Util from '../utils.js';
 
-const forbiddenCharacters = new RegExp('[<,>]');
+const forbiddenCharacters = new RegExp('[<>]');
 
 const editTaskForm = document.querySelector('[data-form-new-task]');
 const editTaskPopup = document.querySelector('[data-edit-popup]');
