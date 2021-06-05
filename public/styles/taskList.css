@@ -76,8 +76,9 @@
     border-bottom: 3px solid var(--col_col1_positive);
     background-color: inherit;
     text-align: center;
-    overflow: hidden;
-    min-height: 50px;
+    overflow-y: hidden;
+    min-height: 45px;
+    max-height: 45px;
     padding: 5px;
 }
 

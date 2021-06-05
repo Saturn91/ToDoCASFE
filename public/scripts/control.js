@@ -23,14 +23,16 @@ function toggleDarkTheme(event) {
     propertyStorage.storeProperties(event.target.value);
 }
 
+const selectTheme = document.querySelector('[data_theme]');
 /* load theme from storage */
 if (propertyStorage.getProperties().theme === 'light') {
     document.body.classList.remove('dark-theme');
+    selectTheme.value = 'light';
 } else {
     document.body.classList.add('dark-theme');
+    selectTheme.value = 'dark';
 }
 
-const selectTheme = document.querySelector('[data_theme]');
 selectTheme.addEventListener('change', (event) => toggleDarkTheme(event));
 
 const addTaskBtn = document.querySelectorAll('[data-add-task]');
