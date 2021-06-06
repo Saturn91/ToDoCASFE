@@ -40,10 +40,11 @@ h1 {
 /* ---main layout with gridbox--- */
 .main-body-container {
     padding: 10px;
-    height: 100vh;
+    min-height: 100vh;
+    height: 100%;
     display: grid;
     background-color: var(--col_back_body);
-    grid-template-columns: auto;
+    grid-template-columns: 100%;
     grid-template-rows: 40px auto 30px;
     grid-template-areas:
         "header"

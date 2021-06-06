@@ -52,6 +52,17 @@
         <button name="cancel" class="btn negative" id="{{id}}" data-cancel-btn>Delete</button>
     </div>
   </script>
+
+  <script id='task-sort-list-category-template' type="text/x-handlebars-template">
+    <div id="sort-cat-{{id}}" class="task-list-sortcategory">
+      <div class="task-card">
+        <h1 id="sort-cat-title-{{id}}">Cat</h1> 
+        <div class="button-holder">
+          <button class="btn positive" data-add-task>Add new Task</button>
+        </div> 
+      </div>      
+    </div>
+  </script>
 </head>
 <body>
 <!--main page layout-->
@@ -74,16 +85,7 @@
       <button class="task-btn-last" data-add-task>Add new</button>
     </section>
     <!--list of tasks-->
-    <section class="task-list" data-task-list>
-      <div class="task-card first">
-        <h1>Add Task</h1>  
-        <div class='description'>
-        </div> 
-        <div class="button-holder">
-          <button class="btn positive" data-add-task>Add</button>
-        </div>    
-      </div>
-    </section>
+    <section class="task-list" data-task-list></section>
   </main>
   <footer class="footer">
     <p>&copy; made by Saturn91.dev</p>

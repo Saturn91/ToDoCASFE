@@ -6,6 +6,8 @@ const listParent = document.querySelector('[data-task-list]');
 const cardDetailsCompiled = Handlebars.compile(document.getElementById('card-details-template').innerHTML);
 const cardFooterTodo = Handlebars.compile(document.getElementById('task-btn-holder-todo-template').innerHTML);
 const cardFooterDone = Handlebars.compile(document.getElementById('task-btn-holder-done-template').innerHTML);
+const sortListCategory = Handlebars.compile(document.getElementById('task-sort-list-category-template').innerHTML);
+
 function sortCreatedDate(a, b) {
     return a.createdDate - b.createdDate;
 }
@@ -41,7 +43,6 @@ function getPriorityHtml(task) {
 export default class View {
     constructor(toDoManager) {
         this.toDoManager = toDoManager;
-        this.addNewCardItem = listParent.querySelector('.first');
         this.cardList = [];
         this.displayType = {
             default: 0,
@@ -80,8 +81,10 @@ export default class View {
         this.toDoManager.getTasks()
             .sort((a, b) => sortCreatedDate(a, b))
             .forEach((task) => this.createTaskCard(task));
-        listParent.appendChild(this.addNewCardItem);
-        this.cardList.forEach((card) => listParent.appendChild(card));
+        listParent.innerHTML += sortListCategory({id: 1});
+        const sortCategory = document.getElementById('sort-cat-1');
+        document.getElementById('sort-cat-title-1').innerText = 'late Tasks:';
+        this.cardList.forEach((card) => sortCategory.appendChild(card));
     }
 
     finishedListDisplay() {
@@ -95,7 +98,6 @@ export default class View {
         this.toDoManager.getTasks()
             .sort((a, b) => sortDueDate(a, b))
             .forEach((task) => this.createTaskCard(task));
-        listParent.appendChild(this.addNewCardItem);
         this.cardList.forEach((card) => listParent.appendChild(card));
     }
 
@@ -103,7 +105,6 @@ export default class View {
         this.toDoManager.getTasks()
             .sort((a, b) => sortImportance(a, b))
             .forEach((task, id) => this.createTaskCard(task, id));
-        listParent.appendChild(this.addNewCardItem);
         this.cardList.forEach((card) => listParent.appendChild(card));
     }
 

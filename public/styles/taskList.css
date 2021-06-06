@@ -54,18 +54,27 @@
 
 /* --task list-- */
 .task-list {
+    width: calc(100vw - 20px);
     grid-area: list;
     display: flex;
-    flex-wrap: wrap;
-    max-width: 100%;
+    flex-direction: column;
     justify-content: start;
     gap: 5px;
 }
 
-.task-list .task-card {
+.task-list-sortcategory {
+    overflow: auto;
+    display: flex;
+    justify-content: start;
+    height: fit-content;
+    gap: 5px;
+}
+
+.task-card {
     margin-top: 5px;
     background-color: var(--col_back_card);
-    width: 200px;
+    min-width: 200px;
+    max-width: 200px;
     height: 300px;
     display: flex;
     flex-direction: column;
