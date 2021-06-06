@@ -40,6 +40,13 @@ function getPriorityHtml(task) {
     return html;
 }
 
+function addNewPriorityCategory(sortCatTitle, tasks) {
+    listParent.innerHTML += sortListCategory({id: sortCatTitle});
+    const sortCategory = document.getElementById(`sort-cat-${sortCatTitle}`);
+    document.getElementById(`sort-cat-title-${sortCatTitle}`).innerText = sortCatTitle;
+    tasks.forEach((card) => sortCategory.appendChild(card));
+}
+
 export default class View {
     constructor(toDoManager) {
         this.toDoManager = toDoManager;
@@ -81,31 +88,28 @@ export default class View {
         this.toDoManager.getTasks()
             .sort((a, b) => sortCreatedDate(a, b))
             .forEach((task) => this.createTaskCard(task));
-        listParent.innerHTML += sortListCategory({id: 1});
-        const sortCategory = document.getElementById('sort-cat-1');
-        document.getElementById('sort-cat-title-1').innerText = 'late Tasks:';
-        this.cardList.forEach((card) => sortCategory.appendChild(card));
+        addNewPriorityCategory('late tasks: ', this.cardList);
     }
 
     finishedListDisplay() {
         this.toDoManager.getFinishedTask()
         .sort((a, b) => sortCreatedDate(a, b))
         .forEach((task) => this.createTaskCard(task));
-        this.cardList.forEach((card) => listParent.appendChild(card));
+        addNewPriorityCategory('finished: ', this.cardList);
     }
 
     dueDateSortDisplay() {
         this.toDoManager.getTasks()
             .sort((a, b) => sortDueDate(a, b))
             .forEach((task) => this.createTaskCard(task));
-        this.cardList.forEach((card) => listParent.appendChild(card));
+        addNewPriorityCategory('due Date: ', this.cardList);
     }
 
     importanceSortDisplay() {
         this.toDoManager.getTasks()
             .sort((a, b) => sortImportance(a, b))
             .forEach((task, id) => this.createTaskCard(task, id));
-        this.cardList.forEach((card) => listParent.appendChild(card));
+        addNewPriorityCategory('importance: ', this.cardList);
     }
 
     clearList() {
