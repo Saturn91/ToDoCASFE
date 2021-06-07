@@ -40,11 +40,8 @@ function getPriorityHtml(task) {
     return html;
 }
 
-function addNewPriorityCategory(sortCatTitle, tasks) {
-    listParent.innerHTML += sortListCategory({id: sortCatTitle});
-    const sortCategory = document.getElementById(`sort-cat-${sortCatTitle}`);
-    document.getElementById(`sort-cat-title-${sortCatTitle}`).innerText = sortCatTitle;
-    tasks.forEach((card) => sortCategory.appendChild(card));
+function clearList() {
+    listParent.innerHTML = '';
 }
 
 export default class View {
@@ -60,7 +57,7 @@ export default class View {
     }
 
     updateView(displayType) {
-        this.clearList();
+        clearList();
         if (displayType) {
             switch (displayType) {
                 case this.displayType.default:
@@ -86,35 +83,80 @@ export default class View {
 
     defaultListDisplay() {
         this.toDoManager.getTasks()
-            .sort((a, b) => sortCreatedDate(a, b))
+            .sort((a, b) => sortDueDate(a, b))
             .forEach((task) => this.createTaskCard(task));
-        addNewPriorityCategory('late tasks: ', this.cardList);
+            this.addNewSortCategory('due Date: ', this.toDoManager.getTasks());
     }
 
     finishedListDisplay() {
         this.toDoManager.getFinishedTask()
         .sort((a, b) => sortCreatedDate(a, b))
         .forEach((task) => this.createTaskCard(task));
-        addNewPriorityCategory('finished: ', this.cardList);
+        this.addNewSortCategory('finished: ', this.toDoManager.getFinishedTask());
     }
 
     dueDateSortDisplay() {
         this.toDoManager.getTasks()
-            .sort((a, b) => sortDueDate(a, b))
+            .sort((a, b) => sortCreatedDate(a, b))
             .forEach((task) => this.createTaskCard(task));
-        addNewPriorityCategory('due Date: ', this.cardList);
+
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+        const tommorow = new Date(today.getTime() + 24 * 60 * 60 * 1000);
+        const dayAfterTomorrow = new Date(tommorow.getTime() + 24 * 60 * 60 * 1000);
+        let restOfWeekStart = today;
+        if (today.getDay() < 6) {
+            restOfWeekStart = new Date(dayAfterTomorrow.getTime());
+        }
+
+        const endOfThisWeek = new Date(today
+            .getTime() + (7 - today.getDay() + 1) * 24 * 60 * 60 * 1000);
+
+        const lateTasks = this.toDoManager.getTasks().filter((task) => task.dueDate < today);
+        if (lateTasks.length > 0) {
+            this.addNewSortCategory('late tasks:', lateTasks);
+        }
+
+        const todaysTasks = this.toDoManager.getTasks()
+        .filter((task) => task.dueDate.getMonth() === today.getMonth()
+            && task.dueDate.getDate() === today.getDate()
+            && task.dueDate.getFullYear() === today.getFullYear());
+        if (todaysTasks.length > 0) {
+            this.addNewSortCategory('today:', todaysTasks);
+        }
+
+        const tomorrowsTasks = this.toDoManager.getTasks()
+        .filter((task) => task.dueDate.getDate() === tommorow.getDate()
+        && task.dueDate.getMonth() === tommorow.getMonth()
+        && task.dueDate.getFullYear() === tommorow.getFullYear());
+
+        if (tomorrowsTasks.length > 0) {
+            this.addNewSortCategory('tomorrow:', tomorrowsTasks);
+        }
+
+        const thisWeekTasks = this.toDoManager.getTasks()
+        .filter((task) => task.dueDate.getTime() >= restOfWeekStart.getTime()
+        && task.dueDate.getTime() < endOfThisWeek.getTime());
+
+        if (thisWeekTasks.length > 0) {
+            this.addNewSortCategory('this week:', thisWeekTasks);
+        }
+
+        const laterTasks = this.toDoManager.getTasks()
+        .filter((task) => task.dueDate.getTime() >= endOfThisWeek.getTime());
+
+        if (laterTasks.length > 0) {
+            this.addNewSortCategory('later:', laterTasks);
+        }
     }
 
     importanceSortDisplay() {
         this.toDoManager.getTasks()
             .sort((a, b) => sortImportance(a, b))
             .forEach((task, id) => this.createTaskCard(task, id));
-        addNewPriorityCategory('importance: ', this.cardList);
-    }
-
-    clearList() {
-        listParent.innerHTML = '';
-        this.cardList = [];
+            this.addNewSortCategory('High Prio: ', this.toDoManager.getTasks().filter((task) => task.importance === '1'));
+            this.addNewSortCategory('Medium Prio: ', this.toDoManager.getTasks().filter((task) => task.importance === '2'));
+            this.addNewSortCategory('Low Prio: ', this.toDoManager.getTasks().filter((task) => task.importance === '3'));
     }
 
     createTaskCard(task) {
@@ -132,7 +174,7 @@ export default class View {
             );
         newCard.innerHTML = html + getCardFooterAsHtml(task, id);
         this.addEventlisteners(newCard, task, id, this.toDoManager, this);
-        this.cardList.push(newCard);
+        return newCard;
     }
 
     addEventlisteners(newCard, task, id, toDoManager, view) {
@@ -170,5 +212,12 @@ export default class View {
             this.toDoManager.removefromTaskList(id);
             this.updateView();
         }));
+    }
+
+    addNewSortCategory(sortCatTitle, tasks) {
+        listParent.innerHTML += sortListCategory({id: sortCatTitle});
+        const sortCategory = document.getElementById(`sort-cat-${sortCatTitle}`);
+        document.getElementById(`sort-cat-title-${sortCatTitle}`).innerText = sortCatTitle;
+        tasks.forEach((task) => sortCategory.appendChild(this.createTaskCard(task)));
     }
 }
