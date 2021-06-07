@@ -83,22 +83,19 @@ export default class View {
 
     defaultListDisplay() {
         this.toDoManager.getTasks()
-            .sort((a, b) => sortDueDate(a, b))
-            .forEach((task) => this.createTaskCard(task));
-            this.addNewSortCategory('due Date: ', this.toDoManager.getTasks());
+            .sort((a, b) => sortDueDate(a, b));
+            this.addNewSortCategory('created Date: ', this.toDoManager.getTasks());
     }
 
     finishedListDisplay() {
         this.toDoManager.getFinishedTask()
-        .sort((a, b) => sortCreatedDate(a, b))
-        .forEach((task) => this.createTaskCard(task));
+        .sort((a, b) => sortCreatedDate(a, b));
         this.addNewSortCategory('finished: ', this.toDoManager.getFinishedTask());
     }
 
     dueDateSortDisplay() {
         this.toDoManager.getTasks()
-            .sort((a, b) => sortCreatedDate(a, b))
-            .forEach((task) => this.createTaskCard(task));
+            .sort((a, b) => sortDueDate(a, b));
 
         const today = new Date();
         today.setHours(0, 0, 0, 0);
