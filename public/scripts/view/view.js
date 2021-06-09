@@ -8,6 +8,15 @@ const cardFooterTodo = Handlebars.compile(document.getElementById('task-btn-hold
 const cardFooterDone = Handlebars.compile(document.getElementById('task-btn-holder-done-template').innerHTML);
 const sortListCategory = Handlebars.compile(document.getElementById('task-sort-list-category-template').innerHTML);
 
+// daysort initializing
+const today = new Date();
+today.setHours(0, 0, 0, 0);
+const tommorow = new Date(today.getTime() + 24 * 60 * 60 * 1000);
+const dayAfterTomorrow = new Date(tommorow.getTime() + 24 * 60 * 60 * 1000);
+const restOfWeekStart = today.getDay() < 6 ? new Date(dayAfterTomorrow.getTime()) : today;
+const endOfThisWeek = new Date(today
+    .getTime() + (7 - today.getDay() + 1) * 24 * 60 * 60 * 1000);
+
 function sortCreatedDate(a, b) {
     return a.createdDate - b.createdDate;
 }
@@ -83,8 +92,20 @@ export default class View {
 
     defaultListDisplay() {
         this.toDoManager.getTasks()
-            .sort((a, b) => sortDueDate(a, b));
-            this.addNewSortCategory('created Date: ', this.toDoManager.getTasks());
+            .sort((a, b) => sortCreatedDate(a, b));
+
+        const pastTasks = this.toDoManager.getTasks().filter((task) => task.createDate < today);
+        if (pastTasks.length > 0) {
+            this.addNewSortCategory('created in past:', pastTasks);
+        }
+
+        const todaysTasks = this.toDoManager.getTasks()
+        .filter((task) => task.createDate.getMonth() === today.getMonth()
+            && task.createDate.getDate() === today.getDate()
+            && task.createDate.getFullYear() === today.getFullYear());
+        if (todaysTasks.length > 0) {
+            this.addNewSortCategory('created today:', todaysTasks);
+        }
     }
 
     finishedListDisplay() {
@@ -96,18 +117,6 @@ export default class View {
     dueDateSortDisplay() {
         this.toDoManager.getTasks()
             .sort((a, b) => sortDueDate(a, b));
-
-        const today = new Date();
-        today.setHours(0, 0, 0, 0);
-        const tommorow = new Date(today.getTime() + 24 * 60 * 60 * 1000);
-        const dayAfterTomorrow = new Date(tommorow.getTime() + 24 * 60 * 60 * 1000);
-        let restOfWeekStart = today;
-        if (today.getDay() < 6) {
-            restOfWeekStart = new Date(dayAfterTomorrow.getTime());
-        }
-
-        const endOfThisWeek = new Date(today
-            .getTime() + (7 - today.getDay() + 1) * 24 * 60 * 60 * 1000);
 
         const lateTasks = this.toDoManager.getTasks().filter((task) => task.dueDate < today);
         if (lateTasks.length > 0) {
