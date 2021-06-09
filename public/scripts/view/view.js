@@ -15,6 +15,8 @@ const tommorow = new Date(today.getTime() + 24 * 60 * 60 * 1000);
 const dayAfterTomorrow = new Date(tommorow.getTime() + 24 * 60 * 60 * 1000);
 const restOfWeekStart = today.getDay() < 6 ? new Date(dayAfterTomorrow.getTime()) : today;
 const endOfThisWeek = new Date(today.getTime() + (7 - today.getDay() + 1) * 24 * 60 * 60 * 1000);
+const endOfWeekAfter = new Date(endOfThisWeek.
+    getTime() + (7 - today.getDay() + 1) * 24 * 60 * 60 * 1000);
 
 function sortCreatedDate(a, b) {
     return a.createdDate - b.createdDate;
@@ -144,8 +146,13 @@ export default class View {
         && task.dueDate.getTime() < endOfThisWeek.getTime());
         this.addNewSortCategory('this week:', thisWeekTasks);
 
+        const nextWeekTasks = this.toDoManager.getTasks()
+        .filter((task) => task.dueDate.getTime() >= endOfThisWeek.getTime()
+        && task.dueDate.getTime() < endOfWeekAfter.getTime());
+        this.addNewSortCategory('next week:', nextWeekTasks);
+
         const laterTasks = this.toDoManager.getTasks()
-        .filter((task) => task.dueDate.getTime() >= endOfThisWeek.getTime());
+        .filter((task) => task.dueDate.getTime() >= endOfWeekAfter.getTime());
         this.addNewSortCategory('later:', laterTasks);
         this.addCardsEvenListeners(this.toDoManager.getTasks());
     }
