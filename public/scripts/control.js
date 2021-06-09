@@ -1,11 +1,10 @@
 import ToDoManager from './models/todomanager.js';
 import View from './view/view.js';
-import showEditTaskPopUp from './view/edit-popup.js';
 import propertyStorage from './models/data/property-storage-manager.js';
 
 const toDoManager = new ToDoManager();
 const view = new View(toDoManager);
-view.updateView(view.displayType.createdDate);
+view.updateView(view.displayType.sortDueDate);
 
 /* sort and display btns */
 document.querySelector('[data-sort-duedate-btn]').addEventListener('click', () => view.updateView(view.displayType.sortDueDate));
@@ -34,10 +33,3 @@ if (propertyStorage.getProperties().theme === 'light') {
 }
 
 selectTheme.addEventListener('change', (event) => toggleDarkTheme(event));
-
-const addTaskBtn = document.querySelectorAll('[data-add-task]');
-
-addTaskBtn.forEach((button) => button.addEventListener('click', () => showEditTaskPopUp((newTask) => {
-    toDoManager.addTask(newTask);
-    view.updateView(view.displayType.createdDate);
-})));
