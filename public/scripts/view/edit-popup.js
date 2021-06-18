@@ -59,7 +59,7 @@ editTaskForm.addEventListener('submit', (event) => {
 });
 
 editTaskPopup.querySelectorAll('[data-close-popup]').forEach((btn) => btn.addEventListener('click', () => {
-    showWarningPopUp('Close Window?', 'by answering yes you lost all the changes made in this form!', () => { editTaskPopup.style.display = 'none'; console.log('close!'); });
+    showWarningPopUp('Close Window?', 'by answering yes you lost all the changes made in this form!', () => { editTaskPopup.style.display = 'none'; });
 }));
 
 function setUpAsAddNewTaskPopup() {

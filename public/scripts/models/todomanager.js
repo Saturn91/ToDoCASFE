@@ -10,7 +10,7 @@ export default class ToDoManager {
                 // eslint-disable-next-line no-underscore-dangle
                 this.taskList[entry._id] = new Task(
                     entry.title, entry.description, entry.importance, entry.dueDate,
-                    entry.createDate, entry.finishdDate, entry.finished,
+                    entry.createDate, entry.finishDate, entry.finished,
                     );
             });
 
@@ -21,10 +21,8 @@ export default class ToDoManager {
         });
     }
 
-    addTask(task) {
-        this.taskList[this.taskNum] = task;
-        this.taskNum += 1;
-        nedb.saveToNedb(this);
+    addTask(task, callback) {
+        nedb.saveToNedb(task, this.loadTasks(callback));
     }
 
     readTaskByID(id) {

@@ -3,7 +3,7 @@ import {taskStore} from '../services/taskStorage.js';
 
 const router = express.Router();
 
-router.get('/tasks/add', (req, res) => taskStore.add(req.query.task, (err, newEntry) => {
+router.get('/tasks/add', (req, res) => taskStore.add(JSON.parse(req.query.task), (err, newEntry) => {
     if (!err) {
         res.send(newEntry);
     } else {

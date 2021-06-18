@@ -3,13 +3,15 @@ const defaultPort = '3000';
 const defaultFullAddress = `${defaultUrl}:${defaultPort}`;
 
 export default {
-    saveToNedb(task) {
+    saveToNedb(task, callback) {
         fetch(`${defaultFullAddress}/tasks/add?task=${JSON.stringify(task)}`)
         .then((response) => {
-            console.log(response);
+            if (callback) {
+                callback(response);
+            }
         })
         .catch((error) => {
-            console.log(error);
+            console.error(error);
         });
     },
 

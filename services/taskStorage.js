@@ -6,7 +6,16 @@ class TaskStorage {
     }
 
     add(newTask, callback) {
-        this.db.insert({task: newTask}, (err, newEntry) => {
+        this.db.insert({
+            title: newTask.title,
+            description: newTask.description,
+            finishDate: newTask.finishDate,
+            dueDate: newTask.dueDate,
+            createDate: newTask.createDate,
+            importance: newTask.importance,
+            finished: newTask.finished,
+            deleted: newTask.deleted,
+        }, (err, newEntry) => {
             if (callback) {
                 callback(err, newEntry);
             }
