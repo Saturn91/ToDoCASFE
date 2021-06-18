@@ -35,4 +35,12 @@ router.get('/tasks', (req, res) => taskStore.all((err, data) => {
     }
 }));
 
+router.get('/tasks/update', (req, res) => taskStore.update(req.query.id, JSON.parse(req.query.task), (err, updatedEntry) => {
+    if (!err) {
+        res.send(JSON.stringify(updatedEntry));
+    } else {
+        res.send(err);
+    }
+}));
+
 export const orderRoutes = router;

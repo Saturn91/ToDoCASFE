@@ -1,5 +1,4 @@
 import showEditTaskPopUp from './edit-popup.js';
-import Util from '../utils.js';
 import showWarningPopUp from './warning-popup.js';
 
 const listParent = document.querySelector('[data-task-list]');
@@ -15,8 +14,9 @@ const tommorow = new Date(today.getTime() + 24 * 60 * 60 * 1000);
 const dayAfterTomorrow = new Date(tommorow.getTime() + 24 * 60 * 60 * 1000);
 const restOfWeekStart = today.getDay() < 6 ? new Date(dayAfterTomorrow.getTime()) : today;
 const endOfThisWeek = new Date(today.getTime() + (7 - today.getDay() + 1) * 24 * 60 * 60 * 1000);
-const endOfWeekAfter = new Date(endOfThisWeek.
-    getTime() + (7 - today.getDay() + 1) * 24 * 60 * 60 * 1000);
+const endOfWeekAfter = new Date(
+    endOfThisWeek.getTime() + (7 - today.getDay() + 1) * 24 * 60 * 60 * 1000,
+    );
 
 function sortCreatedDate(a, b) {
     return a.createdDate - b.createdDate;
@@ -38,8 +38,8 @@ function getFinishedDateAsHtml(task) {
     return task.finished ? `${task.finishDate.getDate()}/${task.dueDate.getMonth() + 1}/${task.finishDate.getFullYear()}` : 'not yet';
 }
 
-function getCardFooterAsHtml(task, _id) {
-    return task.finished ? cardFooterDone({id: _id}) : cardFooterTodo({id: _id});
+function getCardFooterAsHtml(task) {
+    return task.finished ? cardFooterDone({id: task.id}) : cardFooterTodo({id: task.id});
 }
 
 function getPriorityHtml(task) {
@@ -63,6 +63,32 @@ function updateAddTaskBtns(view, toDoManager) {
     })));
 }
 
+function createTaskCard(task) {
+    const newCard = document.createElement('div');
+    newCard.classList.add('task-card');
+    // eslint-disable-next-line no-underscore-dangle
+    newCard.id = task.id;
+    const html = cardDetailsCompiled(
+        {title: task.title,
+        priority: getPriorityHtml(task),
+        dueDateString: `${task.dueDate.getDate()}/${task.dueDate.getMonth() + 1}/${task.dueDate.getFullYear()}`,
+        createDateString: `${task.createDate.getDate()}/${task.dueDate.getMonth() + 1}/${task.createDate.getFullYear()}`,
+        finshedDateString: `${getFinishedDateAsHtml(task)}`,
+        description: task.description},
+        );
+    newCard.innerHTML = html + getCardFooterAsHtml(task);
+    return newCard;
+}
+
+function addNewSortCategory(sortCatTitle, tasks) {
+    if (tasks.length > 0) {
+        listParent.innerHTML += sortListCategory({id: sortCatTitle});
+        const sortCategory = document.getElementById(`sort-cat-${sortCatTitle}`);
+        document.getElementById(`sort-cat-title-${sortCatTitle}`).innerText = sortCatTitle;
+        tasks.forEach((task) => sortCategory.appendChild(createTaskCard(task)));
+    }
+}
+
 export default class View {
     constructor(toDoManager) {
         this.toDoManager = toDoManager;
@@ -76,6 +102,7 @@ export default class View {
     }
 
     updateView(displayType) {
+        this.toDoManager.loadTasks(() => {
         clearList();
         if (displayType !== undefined) {
             switch (displayType) {
@@ -98,25 +125,26 @@ export default class View {
         } else {
             this.dueDateSortDisplay();
         }
+        });
     }
 
     createdListDisplay() {
         const sorted = this.toDoManager.getTasks().sort((a, b) => sortCreatedDate(a, b));
 
         const pastTasks = sorted.filter((task) => task.createDate < today);
-        this.addNewSortCategory('created in past:', pastTasks);
+        addNewSortCategory('created in past:', pastTasks);
 
         const todaysTasks = sorted
         .filter((task) => task.createDate.getMonth() === today.getMonth()
             && task.createDate.getDate() === today.getDate()
             && task.createDate.getFullYear() === today.getFullYear());
-        this.addNewSortCategory('created today:', todaysTasks);
+        addNewSortCategory('created today:', todaysTasks);
         this.addCardsEvenListeners(this.toDoManager.getTasks());
     }
 
     finishedListDisplay() {
         const sorted = this.toDoManager.getFinishedTask().sort((a, b) => sortFinishedDate(a, b));
-        this.addNewSortCategory('finished: ', sorted);
+        addNewSortCategory('finished: ', sorted);
         this.addCardsEvenListeners(this.toDoManager.getFinishedTask());
     }
 
@@ -124,59 +152,42 @@ export default class View {
         const sorted = this.toDoManager.getTasks().sort((a, b) => sortDueDate(a, b));
 
         const lateTasks = sorted.filter((task) => task.dueDate < today);
-        this.addNewSortCategory('late tasks:', lateTasks);
+        addNewSortCategory('late tasks:', lateTasks);
 
         const todaysTasks = sorted
         .filter((task) => task.dueDate.getMonth() === today.getMonth()
             && task.dueDate.getDate() === today.getDate()
             && task.dueDate.getFullYear() === today.getFullYear());
-        this.addNewSortCategory('today:', todaysTasks);
+        addNewSortCategory('today:', todaysTasks);
 
         const tomorrowsTasks = sorted
         .filter((task) => task.dueDate.getDate() === tommorow.getDate()
         && task.dueDate.getMonth() === tommorow.getMonth()
         && task.dueDate.getFullYear() === tommorow.getFullYear());
-        this.addNewSortCategory('tomorrow:', tomorrowsTasks);
+        addNewSortCategory('tomorrow:', tomorrowsTasks);
 
         const thisWeekTasks = sorted
         .filter((task) => task.dueDate.getTime() >= restOfWeekStart.getTime()
         && task.dueDate.getTime() < endOfThisWeek.getTime());
-        this.addNewSortCategory('this week:', thisWeekTasks);
+        addNewSortCategory('this week:', thisWeekTasks);
 
         const nextWeekTasks = sorted
         .filter((task) => task.dueDate.getTime() >= endOfThisWeek.getTime()
         && task.dueDate.getTime() < endOfWeekAfter.getTime());
-        this.addNewSortCategory('next week:', nextWeekTasks);
+        addNewSortCategory('next week:', nextWeekTasks);
 
         const laterTasks = sorted
         .filter((task) => task.dueDate.getTime() >= endOfWeekAfter.getTime());
-        this.addNewSortCategory('later:', laterTasks);
+        addNewSortCategory('later:', laterTasks);
         this.addCardsEvenListeners(sorted);
     }
 
     importanceSortDisplay() {
         const sorted = this.toDoManager.getTasks().sort((a, b) => sortImportance(a, b));
-            this.addNewSortCategory('High Prio: ', sorted.filter((task) => task.importance === '1'));
-            this.addNewSortCategory('Medium Prio: ', sorted.filter((task) => task.importance === '2'));
-            this.addNewSortCategory('Low Prio: ', sorted.filter((task) => task.importance === '3'));
+            addNewSortCategory('High Prio: ', sorted.filter((task) => task.importance === '1'));
+            addNewSortCategory('Medium Prio: ', sorted.filter((task) => task.importance === '2'));
+            addNewSortCategory('Low Prio: ', sorted.filter((task) => task.importance === '3'));
         this.addCardsEvenListeners(this.toDoManager.getTasks());
-    }
-
-    createTaskCard(task) {
-        const newCard = document.createElement('div');
-        const id = Util.getKeyByValueFromObject(task, this.toDoManager.getTaskListAsArray());
-        newCard.classList.add('task-card');
-        newCard.id = id;
-        const html = cardDetailsCompiled(
-            {title: task.title,
-            priority: getPriorityHtml(task),
-            dueDateString: `${task.dueDate.getDate()}/${task.dueDate.getMonth() + 1}/${task.dueDate.getFullYear()}`,
-            createDateString: `${task.createDate.getDate()}/${task.dueDate.getMonth() + 1}/${task.createDate.getFullYear()}`,
-            finshedDateString: `${getFinishedDateAsHtml(task)}`,
-            description: task.description},
-            );
-        newCard.innerHTML = html + getCardFooterAsHtml(task, id);
-        return newCard;
     }
 
     addCardsEvenListeners(tasks) {
@@ -185,14 +196,13 @@ export default class View {
     }
 
     addEventlisteners(task, toDoManager, view) {
-        const id = Util.getKeyByValueFromObject(task, toDoManager.getTaskListAsArray());
-        const newCard = document.getElementById(id);
+        const newCard = document.getElementById(task.id);
         if (!task.finished) {
             newCard.addEventListener('click', (event) => {
                 if (event.target.name !== 'done' && event.target.name !== 'cancel') {
                     showEditTaskPopUp(
                         (updatedTask) => {
-                            toDoManager.updateTask(id, updatedTask);
+                            toDoManager.updateTask(task.id, updatedTask);
                             this.updateView(this.displayType.sortDueDate);
                         },
                         task,
@@ -200,7 +210,7 @@ export default class View {
                 }
             });
             newCard.querySelector('[data-done-btn]').addEventListener('click', () => showWarningPopUp('Finish Task?', 'By answering yes the task will get moved into the "finished Task" list', () => {
-                toDoManager.finishTaskById(id);
+                toDoManager.finishTaskById(task.id);
                 view.updateView();
             }));
 
@@ -218,17 +228,8 @@ export default class View {
         }
 
         newCard.querySelector('[data-cancel-btn]').addEventListener('click', () => showWarningPopUp('Deleting Task?', 'By answering yes the task will get deleted permanently!', () => {
-            toDoManager.removefromTaskList(id);
+            toDoManager.removefromTaskList(task.id);
             this.updateView();
         }));
-    }
-
-    addNewSortCategory(sortCatTitle, tasks) {
-        if (tasks.length > 0) {
-            listParent.innerHTML += sortListCategory({id: sortCatTitle});
-            const sortCategory = document.getElementById(`sort-cat-${sortCatTitle}`);
-            document.getElementById(`sort-cat-title-${sortCatTitle}`).innerText = sortCatTitle;
-            tasks.forEach((task) => sortCategory.appendChild(this.createTaskCard(task)));
-        }
     }
 }

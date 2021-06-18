@@ -7,14 +7,15 @@ export default class ToDoManager {
             const dataList = JSON.parse(text);
             this.taskList = {};
             dataList.forEach((entry) => {
-                // eslint-disable-next-line no-underscore-dangle
+                if (entry.state !== 'DELETED') {
+                    // eslint-disable-next-line no-underscore-dangle
                 this.taskList[entry._id] = new Task(
                     entry.title, entry.description, entry.importance, entry.dueDate,
-                    entry.createDate, entry.finishDate, entry.finished,
+                    // eslint-disable-next-line no-underscore-dangle
+                    entry.createDate, entry.finishDate, entry.finished, entry._id,
                     );
+                }
             });
-
-            console.log(this.taskList);
             if (callback) {
                 callback();
             }
@@ -35,28 +36,23 @@ export default class ToDoManager {
         return output;
     }
 
-    removefromTaskList(id) {
+    removefromTaskList(id, callback) {
         if (this.readTaskByID(id) != null) {
-            nedb.delete(id);
-            this.loadTasks();
-            return;
+            nedb.delete(id, callback);
         }
-        console.error(`unexpected id: ${id} is not contained in this.tasklist!`);
     }
 
     finishTaskById(id) {
         if (this.taskList[id] !== undefined) {
             this.taskList[id].finished = true;
             this.taskList[id].finishDate = new Date();
-            //saveToLocalStorage(this);
-            return;
+            this.updateTask(id, this.taskList[id]);
         }
-        console.error(`id: ${id} does not exist in taskList`);
     }
 
     updateTask(id, task) {
         this.taskList[id] = task;
-        //saveToLocalStorage(this);
+        nedb.update(id, task);
     }
 
     getTaskListAsArray() {

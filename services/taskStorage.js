@@ -31,7 +31,16 @@ class TaskStorage {
     }
 
     update(id, updatedTask, callback) {
-        this.db.update({_id: id}, {$set: {task: updatedTask}},
+        this.db.update({_id: id}, {$set: {
+            title: updatedTask.title,
+            description: updatedTask.description,
+            finishDate: updatedTask.finishDate,
+            dueDate: updatedTask.dueDate,
+            createDate: updatedTask.createDate,
+            importance: updatedTask.importance,
+            finished: updatedTask.finished,
+            deleted: updatedTask.deleted,
+        }},
          {returnUpdatedDocs: true}, (err, numDocs, doc) => {
             if (callback) {
                 callback(err, doc);

@@ -15,13 +15,23 @@ export default {
         });
     },
 
-    delete(id) {
+    delete(id, callback) {
         fetch(`${defaultFullAddress}/tasks/del?id=${id}`)
-        .then((response) => {
-            console.log(response);
+        .then(() => {
+           if (callback) callback();
         })
         .catch((error) => {
-            console.log(error);
+            console.error(error);
+        });
+    },
+
+    update(id, task, callback) {
+        fetch(`${defaultFullAddress}/tasks/update?id=${id}&task=${JSON.stringify(task)}`)
+        .then(() => {
+            if (callback) callback();
+        })
+        .catch((error) => {
+            console.error(error);
         });
     },
 

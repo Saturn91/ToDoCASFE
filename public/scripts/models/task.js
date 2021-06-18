@@ -1,5 +1,5 @@
 export default class Task {
-    constructor(title, description, importance, dueDate, createDate, finishDate, finished) {
+    constructor(title, description, importance, dueDate, createDate, finishDate, finished, id) {
         this.title = title;
         this.description = description;
         this.finishDate = finishDate === undefined ? new Date() : new Date(finishDate);
@@ -8,6 +8,7 @@ export default class Task {
         this.importance = importance;
         this.finished = finished === undefined ? false : finished;
         this.deleted = false;
+        this.id = id;
     }
 
     debug() {
