@@ -3,8 +3,23 @@ import View from './view/view.js';
 import propertyStorage from './models/data/property-storage-manager.js';
 
 const toDoManager = new ToDoManager();
+
 const view = new View(toDoManager);
-view.updateView(view.displayType.sortDueDate);
+toDoManager.loadTasks(() => {
+    view.updateView(view.displayType.sortDueDate);
+});
+
+
+//Copy all tasks from localstorage and load them into the nedb
+/*toDoManager.getTaskListAsArray().forEach((task) => {
+    fetch(`http://localhost:3000/tasks/add?task=${task}`)
+    .then((response) => {
+        console.log(response);
+    })
+    .catch((error) => {
+        console.log('Error: ' + error);
+    });
+});*/
 
 /* sort and display btns */
 document.querySelector('[data-sort-duedate-btn]').addEventListener('click', () => view.updateView(view.displayType.sortDueDate));

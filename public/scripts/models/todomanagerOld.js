@@ -1,30 +1,22 @@
-import nedb from './data/task-storage-manager.js';
-import Task from './task.js';
+import { getTaskFromSaveIndex, saveToLocalStorage } from './data/task-storage-manager.js';
 
 export default class ToDoManager {
-    loadTasks(callback) {
-        nedb.getAll((text) => {
-            const dataList = JSON.parse(text);
-            this.taskList = {};
-            dataList.forEach((entry) => {
-                // eslint-disable-next-line no-underscore-dangle
-                this.taskList[entry._id] = new Task(
-                    entry.title, entry.description, entry.importance, entry.dueDate,
-                    entry.createDate, entry.finishdDate, entry.finished,
-                    );
-            });
-
-            console.log(this.taskList);
-            if (callback) {
-                callback();
+    constructor() {
+        this.taskList = {};
+        this.taskNum = 0;
+        const loadedItems = localStorage.getItem('TaskNumber');
+        if (loadedItems != null) {
+            for (let i = 0; i < loadedItems; i++) {
+                this.taskList[this.taskNum] = getTaskFromSaveIndex(i);
+                this.taskNum += 1;
             }
-        });
+        }
     }
 
     addTask(task) {
         this.taskList[this.taskNum] = task;
         this.taskNum += 1;
-        nedb.saveToNedb(this);
+        saveToLocalStorage(this);
     }
 
     readTaskByID(id) {
@@ -39,8 +31,8 @@ export default class ToDoManager {
 
     removefromTaskList(id) {
         if (this.readTaskByID(id) != null) {
-            nedb.delete(id);
-            this.loadTasks();
+            this.taskList[id].deleted = true;
+            saveToLocalStorage(this);
             return;
         }
         console.error(`unexpected id: ${id} is not contained in this.tasklist!`);
@@ -50,7 +42,7 @@ export default class ToDoManager {
         if (this.taskList[id] !== undefined) {
             this.taskList[id].finished = true;
             this.taskList[id].finishDate = new Date();
-            //saveToLocalStorage(this);
+            saveToLocalStorage(this);
             return;
         }
         console.error(`id: ${id} does not exist in taskList`);
@@ -58,7 +50,7 @@ export default class ToDoManager {
 
     updateTask(id, task) {
         this.taskList[id] = task;
-        //saveToLocalStorage(this);
+        saveToLocalStorage(this);
     }
 
     getTaskListAsArray() {
