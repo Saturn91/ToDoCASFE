@@ -3,8 +3,6 @@
 ![GitHub Logo](/documentation/Overview.png)
 Format: Overview of the node Manager (which I call task Manager)
 
-Die Vorlage beinhaltet CSS/HTML/JS-Linter. Diese sind konfiguriert. Ich habe mir erlaubt in einigen Situationen einen console.error('...'); zu verwenden. Diese sollten aber normalerweise nicht zum Zuge kommen.
-
 # Bedienungsanleitung
 1. Add task: Wenn die App geöffnet wird und noch keine Tasks implementiert kann mit dem Button "Add new" in der Optionsleiste ein neuer Task erstellt werden
 2. Select Tasks: das Dropdown ganz links erlaubt die Auswahl zwischen noch nicht abgeschlossenen Tasks und abgeschlossenen Tasks
@@ -14,6 +12,8 @@ Die Vorlage beinhaltet CSS/HTML/JS-Linter. Diese sind konfiguriert. Ich habe mir
 6. Darkmode kann in der rechten oberen Ecke implementiert werden
 
 # npm commands
+Die Vorlage beinhaltet CSS/HTML/JS-Linter. Diese sind konfiguriert. Ich habe mir erlaubt in einigen Situationen einen console.error('...'); zu verwenden. Diese sollten aber normalerweise nicht zum Zuge kommen.
+
 Folgende Befehle sind dann möglich
 
 | Befehl  |  Beschreibung |
