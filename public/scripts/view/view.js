@@ -34,6 +34,11 @@ export default class View {
         this.currentSortType = SortTypes.dueDate;
     }
 
+    setCurrentTaskList(taskList) {
+        this.currentTaskList = taskList;
+        this.updateView();
+    }
+
     updateView(sortAfter) {
         if (sortAfter !== undefined) {
             this.currentSortType = sortAfter;

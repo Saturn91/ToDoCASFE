@@ -2,7 +2,7 @@
 <html lang="de">
 <head>
   <meta charset="UTF-8">
-  <title>Notes Manager</title>
+  <title>Task Manager</title>
 
   <!-- scripts -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.3/handlebars.min.js" integrity="sha256-/PJBs6QWvXijOFIX04kZpLb6ZtSQckdOIavLWKKOgXU=" crossorigin="anonymous" defer></script>
@@ -68,8 +68,8 @@
 <!--main page layout-->
 <div class="main-body-container">
   <header class="header">
-    <h1>Manage your Notes</h1>
-    <select name="theme" class='options' data_theme>
+    <h1>Manage your Tasks</h1>
+    <select name="theme" data_theme>
       <option value="light" selected>light theme</option>
       <option value="dark">dark theme</option>
     </select>
@@ -77,11 +77,15 @@
   <main class="content task-list-container">
     <!--sort options-->
     <section class="task-options">
+      <select name="show-list" data-task-list-choice>
+        <option value="dueTasks" selected>due Tasks</option>
+        <option value="finishedTasks">finished Tasks</option>
+      </select>
       <p>Sort after: </p>
       <button class="task-btn" data-sort-duedate-btn>Due Date</button>
       <button class="task-btn" data-sort-importance>Importance</button>
       <button class="task-btn" data-sort-created-btn>Created Date</button>
-      <button class="task-btn" data-show-finished-btn>Finished Date</button>      
+      <button class="task-btn" data-show-finished-btn>Finished Date</button>
       <button class="task-btn-last" data-add-task>Add new</button>
     </section>
     <!--list of tasks-->

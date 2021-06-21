@@ -1,5 +1,5 @@
 import ToDoManager from './models/todomanager.js';
-import View, { SortTypes } from './view/view.js';
+import View, { SortTypes, TaskLists } from './view/view.js';
 import propertyStorage from './models/data/property-storage-manager.js';
 
 const toDoManager = new ToDoManager();
@@ -34,3 +34,20 @@ if (propertyStorage.getProperties().theme === 'light') {
 }
 
 selectTheme.addEventListener('change', (event) => toggleDarkTheme(event));
+
+/* select current task list */
+const selectTasks = document.querySelector('[data-task-list-choice]');
+selectTasks.addEventListener('change', (event) => {
+    switch (event.target.value) {
+        case 'dueTasks':
+            view.setCurrentTaskList(TaskLists.dueTasks);
+            break;
+        case 'finishedTasks':
+        view.setCurrentTaskList(TaskLists.finishedTasks);
+            break;
+        default:
+            console.error(`unknown TaskList: ${event.target.value}`);
+            view.setCurrentTaskList(TaskLists.dueTasks);
+            break;
+    }
+});

@@ -75,24 +75,23 @@ h1 {
 /* --/main layout with gridbox--- */
 
 /* -- header -- */
-.header .options {
-    height: 100%;
-}
 
 .header h1 {
     font-size: 1.5rem;
 }
 
-.header select {
+select {
     border: none;
     border-left: 3px solid var(--col_border_light);
     background-color: var(--col_col1_positive);
     color: var(--col_light_text);
     padding-left: 5px;
-    width: 150px;
+    width: 200px;
+    font-size: 1.5rem;
+    font-weight: bold;
 }
 
-.header select:active, select:hover {
+select:active, select:hover {
     background-color: var(--col_border_light);
     color: var(--col_default_text);
 }
