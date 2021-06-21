@@ -17,7 +17,7 @@ function toggleDarkTheme(event) {
     propertyStorage.storeProperties(event.target.value);
 }
 
-const selectTheme = document.querySelector('[data_theme]');
+const selectTheme = document.querySelector('[data-theme]');
 /* load theme from storage */
 if (propertyStorage.getProperties().theme === 'light') {
     document.body.classList.remove('dark-theme');

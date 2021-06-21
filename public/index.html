@@ -69,14 +69,14 @@
 <div class="main-body-container">
   <header class="header">
     <h1>Manage your Tasks</h1>
-    <select name="theme" data_theme>
+    <select name="theme" data-theme>
       <option value="light" selected>light theme</option>
       <option value="dark">dark theme</option>
     </select>
   </header>
   <main class="content task-list-container">
     <!--sort options-->
-    <section class="task-options">
+    <div class="task-options">
       <select name="task-list-choice" data-task-list-choice>
         <option value="dueTasks" selected>due Tasks</option>
         <option value="finishedTasks">finished Tasks</option>
@@ -89,9 +89,9 @@
         <option value="2">importance</option>        
       </select>
       <button class="task-btn-last" data-add-task>Add new</button>
-    </section>
+    </div>
     <!--list of tasks-->
-    <section class="task-list" data-task-list></section>
+    <div class="task-list" data-task-list></div>
   </main>
   <footer class="footer">
     <p>&copy; made by Saturn91.dev</p>
@@ -121,7 +121,7 @@
           </div>
         </div>        
         <label for="description">Description: </label>
-        <textarea class="form-description" type="text" name='description' id="description" required></textarea>
+        <textarea class="form-description" name='description' id="description" required></textarea>
         <div class="msg-line" data-form-msg></div>
         <div class="popup-footer">
           <div class="button-holder">
