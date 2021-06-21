@@ -93,12 +93,13 @@ select {
     font-weight: bold;
 }
 
-select:active, select:hover {
+select:active,
+select:hover {
     background-color: var(--col_border_light);
     color: var(--col_default_text);
 }
 
-.msg-line { 
+.msg-line {
     display: none;
     padding: 0 5px;
     background-color: var(--col_col3_warning) !important;

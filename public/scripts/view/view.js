@@ -64,6 +64,7 @@ export default class View {
                     this.finishedListSortDisplay(tasks);
                     break;
                 default:
+                    // eslint-disable-next-line no-console
                     console.error(`sortType: ${this.currentSortType} does not exist in ${SortTypes}`);
                     break;
             }

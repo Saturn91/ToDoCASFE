@@ -11,6 +11,7 @@ export default {
             }
         })
         .catch((error) => {
+            // eslint-disable-next-line no-console
             console.error(error);
         });
     },
@@ -21,6 +22,7 @@ export default {
            if (callback) callback();
         })
         .catch((error) => {
+            // eslint-disable-next-line no-console
             console.error(error);
         });
     },
@@ -31,6 +33,7 @@ export default {
             if (callback) callback();
         })
         .catch((error) => {
+            // eslint-disable-next-line no-console
             console.error(error);
         });
     },
@@ -40,6 +43,7 @@ export default {
         .then((response) => {
             response.text().then((text) => callback(text));
         })
+        // eslint-disable-next-line no-console
         .catch((error) => console.error(error));
     },
 };

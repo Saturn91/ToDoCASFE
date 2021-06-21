@@ -41,6 +41,7 @@ selectTasks.addEventListener('change', (event) => {
         view.setCurrentTaskList(TaskLists.finishedTasks);
             break;
         default:
+            // eslint-disable-next-line no-console
             console.error(`unknown TaskList: ${event.target.value}`);
             view.setCurrentTaskList(TaskLists.dueTasks);
             break;

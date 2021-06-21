@@ -5,7 +5,7 @@
     min-height: 500px;
 }
 
-.input-new-task-form{
+.input-new-task-form {
     height: 100%;
     display: flex;
     padding: 5px;
@@ -45,4 +45,3 @@
     background-color: var(--col_col2_negativ);
     color: var(--col_light_text);
 }
-
