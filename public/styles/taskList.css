@@ -89,6 +89,7 @@
     min-height: 45px;
     max-height: 45px;
     padding: 5px;
+    font-size: 25px;
 }
 
 .task-card .display-property {
