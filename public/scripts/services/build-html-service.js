@@ -26,7 +26,7 @@ export default {
         const addTaskBtn = document.querySelectorAll('[data-add-task]');
         addTaskBtn.forEach((button) => button.addEventListener('click', () => showEditTaskPopUp((newTask) => {
             toDoManager.addTask(newTask);
-            view.updateView(view.displayType.createdDate);
+            view.updateView();
         })));
     },
     createTaskCard(task) {

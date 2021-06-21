@@ -61,7 +61,7 @@ export default class View {
                     this.importanceSortDisplay(tasks);
                     break;
                 case SortTypes.finished:
-                    this.finishedListDisplay(tasks);
+                    this.finishedListSortDisplay(tasks);
                     break;
                 default:
                     console.error(`sortType: ${this.currentSortType} does not exist in ${SortTypes}`);
@@ -85,7 +85,7 @@ export default class View {
         this.addCardsEvenListeners(tasks);
     }
 
-    finishedListDisplay(tasks) {
+    finishedListSortDisplay(tasks) {
         const sorted = tasks
             .sort((a, b) => sortService.sortFinishedDate(a, b));
             buildHtml.addNewSortCategory('finished: ', sorted);
