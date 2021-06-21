@@ -1,17 +1,17 @@
 import ToDoManager from './models/todomanager.js';
-import View from './view/view.js';
+import View, { SortTypes } from './view/view.js';
 import propertyStorage from './models/data/property-storage-manager.js';
 
 const toDoManager = new ToDoManager();
 
 const view = new View(toDoManager);
-view.updateView(view.displayType.sortDueDate);
+view.updateView();
 
 /* sort and display btns */
-document.querySelector('[data-sort-duedate-btn]').addEventListener('click', () => view.updateView(view.displayType.sortDueDate));
-document.querySelector('[data-sort-created-btn]').addEventListener('click', () => view.updateView(view.displayType.createdDate));
-document.querySelector('[data-sort-importance]').addEventListener('click', () => view.updateView(view.displayType.sortImportance));
-document.querySelector('[data-show-finished-btn]').addEventListener('click', () => view.updateView(view.displayType.showFinised));
+document.querySelector('[data-sort-duedate-btn]').addEventListener('click', () => view.updateView(SortTypes.dueDate));
+document.querySelector('[data-sort-created-btn]').addEventListener('click', () => view.updateView(SortTypes.createdDate));
+document.querySelector('[data-sort-importance]').addEventListener('click', () => view.updateView(SortTypes.importance));
+document.querySelector('[data-show-finished-btn]').addEventListener('click', () => view.updateView(SortTypes.finished));
 
 /* dark theme toggle */
 function toggleDarkTheme(event) {

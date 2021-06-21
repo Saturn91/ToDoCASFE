@@ -14,47 +14,59 @@ const endOfWeekAfter = new Date(
     endOfThisWeek.getTime() + (7 - today.getDay() + 1) * 24 * 60 * 60 * 1000,
     );
 
+export const SortTypes = {
+    dueDate: 0,
+    createdDate: 1,
+    importance: 2,
+    finished: 3,
+};
+
+export const TaskLists = {
+    dueTasks: 0,
+    finishedTasks: 1,
+};
+
 export default class View {
     constructor(toDoManager) {
         this.toDoManager = toDoManager;
         this.cardList = [];
-        this.displayType = {
-            default: 1,
-            createdDate: 0,
-            sortDueDate: 1,
-            sortImportance: 2,
-            showFinised: 3};
+        this.currentTaskList = TaskLists.dueTasks;
+        this.currentSortType = SortTypes.dueDate;
     }
 
-    updateView(displayType) {
+    updateView(sortAfter) {
+        if (sortAfter !== undefined) {
+            this.currentSortType = sortAfter;
+        }
+
         this.toDoManager.loadTasks(() => {
             buildHtml.clearList();
-        if (displayType !== undefined) {
-            switch (displayType) {
-                case this.displayType.createdDate:
-                    this.createdListDisplay();
+            let tasks = this.toDoManager.getTasks();
+            if (this.currentTaskList === TaskLists.finishedTasks) {
+                tasks = this.toDoManager.getFinishedTask();
+            }
+            switch (this.currentSortType) {
+                case SortTypes.dueDate:
+                    this.dueDateSortDisplay(tasks);
                     break;
-                case this.displayType.sortDueDate:
-                    this.dueDateSortDisplay();
+                case SortTypes.createdDate:
+                    this.createdListDisplay(tasks);
                     break;
-                case this.displayType.sortImportance:
-                    this.importanceSortDisplay();
+                case SortTypes.importance:
+                    this.importanceSortDisplay(tasks);
                     break;
-                case this.displayType.showFinised:
-                    this.finishedListDisplay();
+                case SortTypes.finished:
+                    this.finishedListDisplay(tasks);
                     break;
                 default:
-                    console.error(`displaytpye: ${displayType} does not exist`);
+                    console.error(`sortType: ${this.currentSortType} does not exist in ${SortTypes}`);
                     break;
             }
-        } else {
-            this.dueDateSortDisplay();
-        }
         });
     }
 
-    createdListDisplay() {
-        const sorted = this.toDoManager.getTasks()
+    createdListDisplay(tasks) {
+        const sorted = tasks
             .sort((a, b) => sortService.sortCreatedDate(a, b));
 
         const pastTasks = sorted.filter((task) => task.createDate < today);
@@ -65,18 +77,18 @@ export default class View {
             && task.createDate.getDate() === today.getDate()
             && task.createDate.getFullYear() === today.getFullYear());
             buildHtml.addNewSortCategory('created today:', todaysTasks);
-        this.addCardsEvenListeners(this.toDoManager.getTasks());
+        this.addCardsEvenListeners(tasks);
     }
 
-    finishedListDisplay() {
-        const sorted = this.toDoManager.getFinishedTask()
+    finishedListDisplay(tasks) {
+        const sorted = tasks
             .sort((a, b) => sortService.sortFinishedDate(a, b));
             buildHtml.addNewSortCategory('finished: ', sorted);
-        this.addCardsEvenListeners(this.toDoManager.getFinishedTask());
+        this.addCardsEvenListeners(tasks);
     }
 
-    dueDateSortDisplay() {
-        const sorted = this.toDoManager.getTasks().sort((a, b) => sortService.sortDueDate(a, b));
+    dueDateSortDisplay(tasks) {
+        const sorted = tasks.sort((a, b) => sortService.sortDueDate(a, b));
 
         const lateTasks = sorted.filter((task) => task.dueDate < today);
         buildHtml.addNewSortCategory('late tasks:', lateTasks);
@@ -109,12 +121,12 @@ export default class View {
         this.addCardsEvenListeners(sorted);
     }
 
-    importanceSortDisplay() {
-        const sorted = this.toDoManager.getTasks().sort((a, b) => sortService.sortImportance(a, b));
+    importanceSortDisplay(tasks) {
+        const sorted = tasks.sort((a, b) => sortService.sortImportance(a, b));
         buildHtml.addNewSortCategory('High Prio: ', sorted.filter((task) => task.importance === '1'));
         buildHtml.addNewSortCategory('Medium Prio: ', sorted.filter((task) => task.importance === '2'));
         buildHtml.addNewSortCategory('Low Prio: ', sorted.filter((task) => task.importance === '3'));
-        this.addCardsEvenListeners(this.toDoManager.getTasks());
+        this.addCardsEvenListeners(tasks);
     }
 
     addCardsEvenListeners(tasks) {
@@ -130,7 +142,7 @@ export default class View {
                     showEditTaskPopUp(
                         (updatedTask) => {
                             toDoManager.updateTask(task.id, updatedTask);
-                            this.updateView(this.displayType.sortDueDate);
+                            this.updateView();
                         },
                         task,
                     );
