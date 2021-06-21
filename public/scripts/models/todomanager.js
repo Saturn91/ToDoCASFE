@@ -51,6 +51,8 @@ export default class ToDoManager {
     }
 
     updateTask(id, task) {
+        const tempTask = task;
+        tempTask.createDate = this.taskList[id].createDate;
         this.taskList[id] = task;
         nedb.update(id, task);
     }
