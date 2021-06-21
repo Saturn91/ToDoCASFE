@@ -23,7 +23,7 @@ export default class ToDoManager {
     }
 
     addTask(task, callback) {
-        nedb.saveToNedb(task, this.loadTasks(callback));
+        nedb.saveToNedb(task, () => this.loadTasks(callback));
     }
 
     readTaskByID(id) {
