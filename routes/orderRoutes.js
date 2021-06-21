@@ -1,5 +1,5 @@
 import express from 'express';
-import {taskStore} from '../services/taskStorage.js';
+import taskStore from '../services/taskStorage.js';
 
 const router = express.Router();
 
@@ -43,4 +43,6 @@ router.get('/tasks/update', (req, res) => taskStore.update(req.query.id, JSON.pa
     }
 }));
 
-export const orderRoutes = router;
+const orderRouters = router;
+
+export default orderRouters;

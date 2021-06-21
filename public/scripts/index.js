@@ -31,6 +31,7 @@ selectTheme.addEventListener('change', (event) => toggleDarkTheme(event));
 
 /* select current task list */
 const selectTasks = document.querySelector('[data-task-list-choice]');
+selectTasks.value = 'dueTasks';
 selectTasks.addEventListener('change', (event) => {
     switch (event.target.value) {
         case 'dueTasks':
