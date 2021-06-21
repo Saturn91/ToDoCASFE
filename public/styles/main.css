@@ -10,6 +10,7 @@
     --col_back_card: white;
     --col_default_text: black;
     --col_light_text: white;
+    --col_select_text: black;
 }
 
 * {
@@ -27,6 +28,7 @@
     --col_back_card: #6d6d6d;
     --col_default_text: white;
     --col_light_text: rgb(218, 218, 218);
+    --col_select_text: rgb(218, 218, 218);
 }
 
 p {
@@ -83,11 +85,11 @@ h1 {
 select {
     border: none;
     border-left: 3px solid var(--col_border_light);
-    background-color: var(--col_col1_positive);
-    color: var(--col_light_text);
+    background-color: var(--col_back_card);
+    color: var(--col_select_text);
     padding-left: 5px;
     width: 200px;
-    font-size: 1.5rem;
+    font-size: 1.2rem;
     font-weight: bold;
 }
 

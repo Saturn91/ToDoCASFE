@@ -77,15 +77,17 @@
   <main class="content task-list-container">
     <!--sort options-->
     <section class="task-options">
-      <select name="show-list" data-task-list-choice>
+      <select name="task-list-choice" data-task-list-choice>
         <option value="dueTasks" selected>due Tasks</option>
         <option value="finishedTasks">finished Tasks</option>
       </select>
       <p>Sort after: </p>
-      <button class="task-btn" data-sort-duedate-btn>Due Date</button>
-      <button class="task-btn" data-sort-importance>Importance</button>
-      <button class="task-btn" data-sort-created-btn>Created Date</button>
-      <button class="task-btn" data-show-finished-btn>Finished Date</button>
+      <select name="select-sort" data-task-sort-choice>
+        <option value="0" selected>due Date</option>
+        <option value="1">created Date</option>
+        <option value="3">finished Date</option>
+        <option value="2">importance</option>        
+      </select>
       <button class="task-btn-last" data-add-task>Add new</button>
     </section>
     <!--list of tasks-->
