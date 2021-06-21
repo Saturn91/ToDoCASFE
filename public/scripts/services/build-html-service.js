@@ -1,4 +1,4 @@
-import showEditTaskPopUp from '../view/edit-popup.js';
+import showEditTaskPopUp from '../view/popups/edit-popup.js';
 
 /* eslint-disable no-undef */
 const cardDetailsCompiled = Handlebars.compile(document.getElementById('card-details-template').innerHTML);

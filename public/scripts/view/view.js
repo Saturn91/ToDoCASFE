@@ -1,5 +1,5 @@
-import showEditTaskPopUp from './edit-popup.js';
-import showWarningPopUp from './warning-popup.js';
+import showEditTaskPopUp from './popups/edit-popup.js';
+import showWarningPopUp from './popups/warning-popup.js';
 import sortService from '../services/sort-service.js';
 import buildHtml from '../services/build-html-service.js';
 

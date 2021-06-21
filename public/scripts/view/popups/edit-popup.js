@@ -1,6 +1,6 @@
 import showWarningPopUp from './warning-popup.js';
-import Task from '../models/task.js';
-import Util from '../utils.js';
+import Task from '../../models/task.js';
+import Util from '../../utils.js';
 
 const forbiddenCharacters = new RegExp('[<>]');
 
