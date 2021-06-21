@@ -1,4 +1,4 @@
-# Overview over the project
+# Übersicht
 
 ![GitHub Logo](/documentation/Overview.png)
 Format: Overview of the node Manager (which I call task Manager)
