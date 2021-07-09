@@ -1,5 +1,5 @@
 const defaultUrl = 'http://localhost';
-const defaultPort = '3000';
+const defaultPort = '5000';
 const defaultFullAddress = `${defaultUrl}:${defaultPort}`;
 
 export default {
